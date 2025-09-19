@@ -241,7 +241,7 @@ sudo make install
 <div align="center">
 
 **📂 Repository:** [RTL-TO-GDSII](https://github.com/AnujLoyare/RTL-TO-GDSII/tree/main)  
-**👨‍💻 Author:** [TheVoltageVikingRam](https://github.com/AnujLoyare)  
+**👨‍💻 Author:** [AnujLoyare](https://github.com/AnujLoyare)  
 **📚 Program:** VLSI System Design (VSD)
 
 
