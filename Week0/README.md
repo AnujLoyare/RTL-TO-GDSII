@@ -1,4 +1,4 @@
-# 🚀 Week 0: VLSI System Design (VSD) Program Foundation & Tool Setup
+# Week 0: VLSI System Design (VSD) Program Foundation & Tool Setup
 
 <div align="center">
 
@@ -9,6 +9,43 @@
 </div>
 
 Welcome to my **VLSI System Design (VSD) Program** repository! This week focused on setting up the development environment and installing the essential open-source tools that will be used throughout the program. The goal was to create a reliable and efficient workspace for synthesis, simulation, and design tasks.
+
+---
+## 🎥 Video Summary – Getting Started with Digital VLSI SoC Design and Planning
+
+This video provides an introductory overview of the **Digital VLSI SoC (System-on-Chip) Design and Planning** process. It outlines the essential steps and components involved in designing and preparing a chip for **tape-in** and eventual **tape-out**, covering both digital and analog integration.
+
+---
+
+### 🧠 Key Topics Covered
+
+#### 🔁 Design Flow Overview
+- **RTL (Verilog)** ➝ **Synthesis** ➝ **Gate-Level Netlist**
+- Incorporation of:
+  - **Processors**
+  - **Peripherals / IPs**
+  - **Synthesized RTL Macros**
+  - **Functional Analog Blocks**
+- All these elements are integrated into a **complete SoC design**.
+
+#### 🧱 SoC Integration
+- Combining digital and analog components into a single chip.
+- Focused on a structured, hierarchical design approach for manageability and scalability.
+
+#### 🛠️ GDSII Flow Steps
+1. **Floorplanning** – Arranging blocks and defining chip area.
+2. **Placement** – Assigning physical locations to cells.
+3. **Routing** – Establishing electrical connections (wires) between components.
+
+#### 🚀 Tapeout Target Specs
+- The chip being developed is targeted to operate in the frequency range of:
+  - **100 MHz to 130 MHz**
+
+---
+
+### ✅ Takeaway
+
+This video sets the foundation for understanding the **end-to-end SoC design journey**, from RTL to GDSII and ultimately to **tape-out**. It emphasizes the importance of integration and planning in creating a functional, high-performance VLSI chip.
 
 ---
 
