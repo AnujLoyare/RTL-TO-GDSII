@@ -61,13 +61,13 @@ cd sky130RTLDesignAndSynthesisWorkshop/verilog_files
 ```bash
 sudo apt install iverilog
 sudo apt install gtkwave
-
+```
 ### Step 3: Simulate the Design
 ```bash
 iverilog good_mux.v tb_good_mux.v
 ./a.out
 gtkwave tb_good_mux.vcd
-
+```
 <div align="center"> <img src="images/waveform_good_mux.png" alt="GTKWave Example" width="70%"> </div>
 
 I learned how to interpret waveforms, check output correctness, and confirm that the multiplexer behaves as expected for all input combinations.
@@ -75,7 +75,7 @@ I learned how to interpret waveforms, check output correctness, and confirm that
 ---
 
 ## 4. Analyzing Verilog Code
-
+```bash
 module good_mux (
     input i0,
     input i1,
@@ -89,7 +89,7 @@ always @ (*) begin
         y <= i0;
 end
 endmodule
-
+```
 I learned:
 How to use always @(*) blocks for combinational logic.
 How conditional statements (if-else) control output signals.
@@ -114,17 +114,17 @@ Understanding this helps me optimize designs for area, speed, or power.
 I synthesized the good_mux design using Yosys:
 Step-by-Step Flow
 1.Start Yosys
-
+```bash
 yosys
-
+```
 2.Read the Liberty Library
-
+```bash
 read_liberty -ignore_miss_func ../lib/address/to/your/sky130/file/sky130_fd_sc_hd__tt_025C_1v80.lib
 read_verilog /home/anuj-loyare/VLSI/sky130RTLDesignAndSynthesisWorkshop/verilog_files/good_mux.v
 synth -top good_mux
 abc -liberty /address/to/your/sky130/file/sky130_fd_sc_hd__tt_025C_1v80.lib
 show
-
+```
 <div align="center"> <img src="images/netlist.png" alt="Yosys Gate-level Schematic" width="70%"> <img src="images/synth_RTL.png" alt="Synthesized RTL" width="70%"> </div>
 
 I learned how to map my RTL to actual gates, inspect the synthesized netlist, and understand how each signal and gate is represented.
