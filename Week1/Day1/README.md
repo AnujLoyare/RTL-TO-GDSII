@@ -89,19 +89,13 @@ gtkwave tb_good_mux.vcd
 
 
 <div align="center">
-  <img src=" images/waveform_good_mux.png" alt="GTKWave Example" width="70%">
+  <img src="images/waveform_good_mux.png" alt="GTKWave Example" width="70%">
 </div>
 
 ---
 
 ## 4. Verilog Code Analysis
----
 
-<div align="center">
-  <img src=" images/RTLcode_and_tb.png" alt="GTKWave Example" width="70%">
-</div>
-
----
 *The code for the multiplexer (good_mux.v):*
 
 verilog
