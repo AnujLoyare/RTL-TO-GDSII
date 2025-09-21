@@ -90,12 +90,12 @@ always @ (*) begin
         y <= i0;
 end
 endmodule
-
+```
 I learned:
 How to use always @(*) blocks for combinational logic.
 How conditional statements (if-else) control output signals.
 The importance of reg for outputs in combinational assignments.
----
+
 
 ## 5. Introduction to Yosys & Gate Libraries
 
