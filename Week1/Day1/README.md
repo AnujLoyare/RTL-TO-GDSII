@@ -56,6 +56,7 @@ I practiced simulating a **2-to-1 multiplexer** today.
 ```bash
 git clone https://github.com/AnujLoyare/RTL-TO-GDSII.git
 cd sky130RTLDesignAndSynthesisWorkshop/verilog_files
+```
 
 ### Step 2: Install Required Tools
 ```bash
@@ -89,7 +90,7 @@ always @ (*) begin
         y <= i0;
 end
 endmodule
-```
+
 I learned:
 How to use always @(*) blocks for combinational logic.
 How conditional statements (if-else) control output signals.
@@ -113,10 +114,12 @@ Understanding this helps me optimize designs for area, speed, or power.
 
 I synthesized the good_mux design using Yosys:
 Step-by-Step Flow
+
 1.Start Yosys
 ```bash
 yosys
 ```
+
 2.Read the Liberty Library
 ```bash
 read_liberty -ignore_miss_func ../lib/address/to/your/sky130/file/sky130_fd_sc_hd__tt_025C_1v80.lib
@@ -126,7 +129,6 @@ abc -liberty /address/to/your/sky130/file/sky130_fd_sc_hd__tt_025C_1v80.lib
 show
 ```
 <div align="center"> <img src="images/netlist.png" alt="Yosys Gate-level Schematic" width="70%"> <img src="images/synth_RTL.png" alt="Synthesized RTL" width="70%"> </div>
-
 I learned how to map my RTL to actual gates, inspect the synthesized netlist, and understand how each signal and gate is represented.
 ---
 ## 7. Key Takeaways and Reflections
