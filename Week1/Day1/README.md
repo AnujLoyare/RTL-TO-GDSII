@@ -130,7 +130,7 @@ show
 ```
 <div align="center"> <img src="images/netlist.png" alt="Yosys Gate-level Schematic" width="70%"> <img src="images/synth_RTL.png" alt="Synthesized RTL" width="70%"> </div>
 I learned how to map my RTL to actual gates, inspect the synthesized netlist, and understand how each signal and gate is represented.
----
+
 ## 7. Key Takeaways and Reflections
 
 I learned the difference between simulation and synthesis.
