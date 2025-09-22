@@ -43,14 +43,12 @@ sky130_fd_sc_hd__tt_025C_1v80.lib
 
 **Quick Setup:**
 ```bash
-# Install your favorite editor
 sudo apt install gedit
 
 # Open the timing library
 gedit sky130_fd_sc_hd__tt_025C_1v80.lib
 ```
 
-![](Week1/Day2/)
 <div align="center">
   <img src="images/Liberty_file.png" alt="Liberty File Structure" width="70%">
 </div>
@@ -72,7 +70,6 @@ Choosing between hierarchical and flat synthesis isn't just a technical decision
 **The Philosophy:** Maintain your carefully crafted module boundaries and synthesize each piece independently.
 
 ```verilog
-// Your RTL maintains clear boundaries
 module top_module (
     input clk, reset,
     input [7:0] data_in,
@@ -95,14 +92,17 @@ module top_module (
 endmodule
 ```
 
-![](Week1/Day2/)
+
 <div align="center">
   <img src="images/Asynchro_SET_DFF.png" alt="Asynchronous Set D Flip-Flop" width="70%">
 </div>
 
-![](Week1/Day2/)
 <div align="center">
-  <img src="images/RTL_multiple_modules.png" alt="Hierarchical Synthesis Example" width="70%">
+  <img src="images/RTL_multiple_modules.png" alt="Hierarchical Synthesis RTl code" width="70%">
+</div>
+
+<div align="center">
+  <img src="images/image_multiple_modules.png" alt="Hierarchical Synthesis " width="70%">
 </div>
 
 **✅ Advantages:**
@@ -115,7 +115,7 @@ endmodule
 - 🚧 **Limited Cross-Module Optimization** - Boundaries block some optimizations
 - 📈 **Potential Area Overhead** - Duplicate logic at interfaces
 
-![](Week1/Day2/)
+
 <div align="center">
   <img src="images/multiple_module_synth_RTL.png" alt="Multiple Modules Synthesis" width="70%">
 </div>
@@ -129,7 +129,7 @@ endmodule
 yosys> flatten
 ```
 
-![](Week1/Day2/)
+
 <div align="center">
   <img src="images/flatten_multiple_modules.png" alt="Flattened Synthesis Result" width="70%">
 </div>
@@ -187,7 +187,7 @@ endmodule
 - Emergency fault conditions
 - Clock domain crossing
 
-![](Week1/Day2/)
+
 <div align="center">
   <img src="images/Asynchro_RESET_DFF.png" alt="Asynchronous Reset D Flip-Flop" width="70%">
 </div>
@@ -213,6 +213,9 @@ module dff_async_set (
     
 endmodule
 ```
+<div align="center">
+  <img src="images/Asynchro_SET_DFF.png" alt="Asynchronous Set D Flip-Flop" width="70%">
+</div>
 
 ### ⏰ Synchronous Reset: Timing-Safe Operation
 
@@ -242,7 +245,7 @@ endmodule
 - Sync reset provides better timing closure
 - Always consider reset release timing in clock domains
 
-![](Week1/Day2/)
+
 <div align="center">
   <img src="images/Synchro_RESET_DFF.png" alt="Synchronous Reset D Flip-Flop" width="70%">
 </div>
@@ -264,7 +267,6 @@ iverilog dff_asyncres.v tb_dff_asyncres.v
 gtkwave tb_dff_asyncres.vcd
 ```
 
-![](Week1/Day2/)
 <div align="center">
   <img src="images/IMAGE_ASYNC_DFF.png" alt="Simulation Waveform" width="70%">
 </div>
@@ -299,7 +301,7 @@ abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
 show
 ```
 
-![](Week1/Day2/)
+
 <div align="center">
   <img src="images/ASYNC_DFF_using_dfflib.png" alt="Synthesized D Flip-Flop" width="70%">
 </div>
@@ -346,10 +348,6 @@ show
 - Ignoring clock domain crossing in flops
 - Over-flattening complex hierarchical designs
 - Forgetting to verify post-synthesis functionality
-
----
-
-*Ready to dive deeper? The next workshop session will cover advanced timing analysis and clock domain crossing techniques!*
 
 ---
 
@@ -453,3 +451,7 @@ assign mul12 = data * 12;  // → (data << 3) + (data << 2)
 - General multiplication: Full multiplier required
 
 This optimization showcases the intelligence built into modern synthesis tools and why understanding both RTL and hardware implementation is crucial for effective digital design!
+---
+
+*Ready to dive deeper? The next workshop session will cover advanced timing analysis and clock domain crossing techniques!*
+
