@@ -50,7 +50,10 @@ sudo apt install gedit
 gedit sky130_fd_sc_hd__tt_025C_1v80.lib
 ```
 
-![Liberty File Structure](Week1/Day2/images/Liberty_file.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/Liberty_file.png" alt="Liberty File Structure" width="70%">
+</div>
 
 **What You'll Find Inside:**
 - ⏱️ Timing arcs and delay models
@@ -92,9 +95,15 @@ module top_module (
 endmodule
 ```
 
-![Asynchronous Set D Flip-Flop](Week1/Day2/images/Asynchro_SET_DFF.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/Asynchro_SET_DFF.png" alt="Asynchronous Set D Flip-Flop" width="70%">
+</div>
 
-![Hierarchical Synthesis Example](Week1/Day2/images/RTL_multiple_modules.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/RTL_multiple_modules.png" alt="Hierarchical Synthesis Example" width="70%">
+</div>
 
 **✅ Advantages:**
 - 🚀 **Faster Compilation** - Parallel synthesis possible
@@ -106,7 +115,10 @@ endmodule
 - 🚧 **Limited Cross-Module Optimization** - Boundaries block some optimizations
 - 📈 **Potential Area Overhead** - Duplicate logic at interfaces
 
-![Multiple Modules Synthesis](Week1/Day2/images/multiple_module_synth_RTL.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/multiple_module_synth_RTL.png" alt="Multiple Modules Synthesis" width="70%">
+</div>
 
 ### 🌊 Flattened Synthesis: Maximum Optimization
 
@@ -117,7 +129,10 @@ endmodule
 yosys> flatten
 ```
 
-![Flattened Synthesis Result](Week1/Day2/images/flatten_multiple_modules.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/flatten_multiple_modules.png" alt="Flattened Synthesis Result" width="70%">
+</div>
 
 **✅ Advantages:**
 - 🎯 **Maximum Optimization** - No boundaries to limit logic sharing
@@ -159,9 +174,9 @@ module dff_asyncres (
     
     always @ (posedge clk, posedge async_reset) begin
         if (async_reset)
-            q <= 1'b0;  // 🚨 Immediate reset, ignores clock
+            q <= 1'b0;  
         else
-            q <= d;     // 📊 Normal data capture
+            q <= d;    
     end
     
 endmodule
@@ -172,7 +187,10 @@ endmodule
 - Emergency fault conditions
 - Clock domain crossing
 
-![Asynchronous Reset D Flip-Flop](Week1/Day2/images/Asynchro_RESET_DFF.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/Asynchro_RESET_DFF.png" alt="Asynchronous Reset D Flip-Flop" width="70%">
+</div>
 
 ### ⬆️ Asynchronous Set: Power-On Defaults
 
@@ -188,9 +206,9 @@ module dff_async_set (
     
     always @ (posedge clk, posedge async_set) begin
         if (async_set)
-            q <= 1'b1;  // ⚡ Immediate set to high
+            q <= 1'b1; 
         else
-            q <= d;     // 📈 Normal operation
+            q <= d;     
     end
     
 endmodule
@@ -211,9 +229,9 @@ module dff_syncres (
     
     always @ (posedge clk) begin
         if (sync_reset)
-            q <= 1'b0;  // 🕐 Reset only on clock edge
+            q <= 1'b0;  
         else
-            q <= d;     // ⚙️ Predictable timing
+            q <= d;     
     end
     
 endmodule
@@ -224,7 +242,10 @@ endmodule
 - Sync reset provides better timing closure
 - Always consider reset release timing in clock domains
 
-![Synchronous Reset D Flip-Flop](Week1/Day2/images/Synchro_RESET_DFF.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/Synchro_RESET_DFF.png" alt="Synchronous Reset D Flip-Flop" width="70%">
+</div>
 
 ---
 
@@ -243,7 +264,10 @@ iverilog dff_asyncres.v tb_dff_asyncres.v
 gtkwave tb_dff_asyncres.vcd
 ```
 
-![Simulation Waveform](Week1/Day2/images/IMAGE_ASYNC_DFF.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/IMAGE_ASYNC_DFF.png" alt="Simulation Waveform" width="70%">
+</div>
 
 **🎯 Simulation Best Practices:**
 - Test all reset conditions
@@ -275,7 +299,10 @@ abc -liberty /path/to/sky130_fd_sc_hd__tt_025C_1v80.lib
 show
 ```
 
-![Synthesized D Flip-Flop](Week1/Day2/images/ASYNC_DFF_using_dfflib.png)
+![](Week1/Day2/)
+<div align="center">
+  <img src="images/ASYNC_DFF_using_dfflib.png" alt="Synthesized D Flip-Flop" width="70%">
+</div>
 
 **🚀 Synthesis Optimization Tips:**
 - Use appropriate optimization goals (`-area`, `-speed`)
@@ -291,7 +318,6 @@ show
 1. **Library Understanding**
    - SKY130 naming conventions make sense
    - Process corners affect timing and power
-   - Open-source doesn't mean compromised quality
 
 2. **Synthesis Strategy**
    - Hierarchical for large, modular designs
@@ -303,13 +329,6 @@ show
    - Sync reset for timing predictability
    - Choose reset strategy early in design
 
-### 🚀 Next Steps
-
-- Experiment with different synthesis options
-- Build your own flip-flop test cases
-- Explore advanced SKY130 features
-- Practice timing analysis techniques
-
 ---
 
 ## 💡 Pro Designer Tips
@@ -318,7 +337,6 @@ show
 
 - Always simulate before and after synthesis
 - Use hierarchical synthesis for IP blocks
-- Keep reset trees balanced and buffered
 - Document your synthesis methodology
 - Leverage Yosys scripting for repeatable flows
 
@@ -399,14 +417,6 @@ Shift <<3: a[5:3] = abc000
 Add orig:  a[2:0] = 000abc
 Result:    y[5:0] = abcabc (where the addition creates the mul-by-9)
 ```
-
-### 📊 Performance Comparison
-
-| Operation | Hardware Cost | Delay | Power |
-|-----------|---------------|--------|--------|
-| **Full Multiplier** | 🔴 High | 🔴 Multi-cycle | 🔴 High |
-| **Shift + Add (×9)** | 🟡 Medium | 🟢 Single-cycle | 🟢 Low |
-| **Pure Shift (×8)** | 🟢 Minimal | 🟢 Zero delay | 🟢 Minimal |
 
 ### 🎨 Synthesis Tool Intelligence
 
