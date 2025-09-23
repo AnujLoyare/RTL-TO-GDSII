@@ -6,78 +6,25 @@ Welcome to Day 3 of this workshop! Today we discuss optimization of combinationa
 
 ## Table of Contents
 
-- [1. Constant Propagation](#1-constant-propagation)
-- [2. State Optimization](#2-state-optimization)
-- [3. Cloning](#3-cloning)
-- [4. Retiming](#4-retiming)
-- [5. Labs on Optimization](#5-labs-on-optimization)
-  - [Lab 1](#lab-1)
-  - [Lab 2](#lab-2)
-  - [Lab 3](#lab-3)
-  - [Lab 4](#lab-4)
-  - [Lab 5](#lab-5)
-  - [Lab 6](#lab-6)
+- [1. Combinational Logic Optimization](#1-combinational-logic-optimization)
+- [2. Sequential Logic Optimization](#2-sequential-logic-optimization)
+- [3. Unused Output Optimization](#3-unused-output-optimization)
 
 ---
 
-## 1. Constant Propagation
+## Optimization Overview
 
-In VLSI design, constant propagation is a compiler optimization technique used to replace variables with their constant values during synthesis. This can simplify design and enhance performance.
+### Combinational Logic Optimization
+Combinational optimization involves techniques like constant propagation and Boolean logic optimization to reduce circuit complexity, improve performance, and minimize resource usage by simplifying logic expressions and removing redundant gates.
 
-**How it works:**  
-Constant propagation analyzes the design code to identify variables with constant values. These are replaced directly, allowing tools to simplify logic and reduce circuit size.
-
-**Benefits:**
-- **Reduced Complexity:** Simpler logic, smaller circuit.
-- **Performance Improvement:** Faster execution and reduced delays.
-- **Resource Optimization:** Fewer gates or flip-flops required.
-
+### Sequential Logic Optimization
+Sequential optimization focuses on optimizing circuits with memory elements through techniques like sequential constant propagation, state optimization, cloning, and retiming to improve timing performance and reduce power consumption.
 
 ---
 
-## 2. State Optimization
+## 1. Combinational Logic Optimization
 
-State optimization refines finite state machines (FSMs) to improve efficiency in IC design. It reduces the number of states, optimizes encoding, and minimizes logic.
-
-**How it is done:**
-- **State Reduction:** Merge equivalent states using algorithms.
-- **State Encoding:** Assign optimal codes to states.
-- **Logic Minimization:** Use Boolean algebra or tools for compact equations.
-- **Power Optimization:** Techniques like clock gating reduce dynamic power.
-
----
-
-## 3. Cloning
-
-Cloning duplicates a logic cell or module to optimize performance, reduce power, or improve timing by balancing load or reducing wire length.
-
-**How it’s done:**
-- Identify critical paths using analysis tools.
-- Duplicate the target cell/module.
-- Redistribute connections to balance load.
-- Place and route the cloned cell.
-- Verify improvement via timing and power analysis.
-
-
----
-
-## 4. Retiming
-
-Retiming is a design optimization technique that improves circuit performance by repositioning registers (flip-flops) without changing functionality.
-
-**How it is done:**
-1. **Graph Representation:** Model circuit as a directed graph.
-2. **Register Repositioning:** Move registers to balance path delays.
-3. **Constraints Analysis:** Maintain timing and functional equivalence.
-4. **Optimization:** Adjust register positions to minimize clock period and optimize power.
-
----
-
-## 5. Labs on Optimization
-
-### Lab 1
-
-Below is the Verilog code for Lab 1:
+### Lab 1: opt_check
 
 ```verilog
 module opt_check (input a , input b , output y);
@@ -85,23 +32,17 @@ module opt_check (input a , input b , output y);
 endmodule
 ```
 
-**Explanation:**
-- `assign y = a ? b : 0;` means:
-  - If `a` is true, `y` is assigned the value of `b`.
-  - If `a` is false, `y` is 0.
+**Explanation:** This is a 2-to-1 multiplexer where if `a` is true, `y` equals `b`; otherwise `y` is 0. This can be optimized to a simple AND gate (`y = a & b`).
 
-Follow the steps from [Day 1 Synthesis Lab]( ) and add the following between `abc -liberty` and `synth -top`:
-```shell
-opt_clean -purge
-```
+**Before Optimization:**
+![Before Optimization 1](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/Before_Optimization_1.png)
 
-![Lab 1 Output]()
+**After Optimization:**
+![After Optimization 1](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/After_Optimization_1.png)
 
 ---
 
-### Lab 2
-
-Verilog code:
+### Lab 2: opt_check2
 
 ```verilog
 module opt_check2 (input a , input b , output y);
@@ -109,57 +50,39 @@ module opt_check2 (input a , input b , output y);
 endmodule
 ```
 
-**Code Analysis:**
-- Acts as a multiplexer:
-  - `y = 1` if `a` is true.
-  - `y = b` if `a` is false.
+**Explanation:** This multiplexer outputs `1` when `a` is true, otherwise outputs `b`. This can be optimized to `y = a | b` (OR gate).
 
-![Lab 2 Output]()
+**Before Optimization:**
+![Before Optimization 2](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/Before_Optimization_2.png)
+
+**After Optimization:**
+![After Optimization 2](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/After_Optimization_2.png)
 
 ---
 
-### Lab 3
-
-Verilog code:
+### Lab 3: opt_check3
 
 ```verilog
-module opt_check2 (input a , input b , output y);
-	assign y = a?1:b;
+module opt_check3 (input a , input b , input c , output y);
+	assign y = a?(c?b:0):0;
 endmodule
 ```
 
-**Functionality:**  
-2-to-1 multiplexer; `y = a ? 1 : b` (outputs `1` when `a` is true, otherwise `b`).
+**Explanation:** This nested multiplexer can be simplified to `y = a & c & b` (3-input AND gate).
 
-![Lab 3 Output]()
+**Before Optimization:**
+![Before Optimization 3](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/Before_Optimization_3.png)
 
----
-
-### Lab 4
-
-Verilog code:
-
-```verilog
-module opt_check4 (input a , input b , input c , output y);
- assign y = a?(b?(a & c ):c):(!c);
- endmodule
-```
-
-**Functionality:**
-- Three inputs (`a`, `b`, `c`), output `y`.
-- Nested ternary logic:
-  - If `a = 1`, `y = c`.
-  - If `a = 0`, `y = !c`.
-- Logic simplifies to:  
-  `y = a ? c : !c`
-
-![Lab 4 Output]()
+**After Optimization:**
+![After Optimization 3](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/After_Optimization_3.png)
 
 ---
 
-### Lab 5
+## 2. Sequential Logic Optimization
 
-Verilog code:
+Sequential optimization involves optimizing circuits with flip-flops and latches by identifying sequential constants and removing redundant logic.
+
+### Lab 1: dff_const1
 
 ```verilog
 module dff_const1(input clk, input reset, output reg q);
@@ -169,22 +92,17 @@ begin
 		q <= 1'b0;
 	else
 		q <= 1'b1;
-end
 endmodule
 ```
 
-**Functionality:**
-- D flip-flop with:
-  - Asynchronous reset to 0
-  - Loads constant `1` when not in reset
+**Explanation:** D flip-flop with asynchronous reset. When not in reset, it always loads `1`, but the flip-flop is still needed as the output depends on clock and reset timing.
 
-![Lab 5 Output]( )
+**After Optimization:**
+![DFF Constant 1](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/After_optimization_DFF_1.png)
 
 ---
 
-### Lab 6
-
-Verilog code:
+### Lab 2: dff_const2
 
 ```verilog
 module dff_const2(input clk, input reset, output reg q);
@@ -194,24 +112,81 @@ begin
 		q <= 1'b1;
 	else
 		q <= 1'b1;
+endmodule
+```
+
+**Explanation:** This flip-flop always outputs `1` regardless of clock or reset state, so it can be optimized to a constant `1` connection.
+
+**After Optimization:**
+![DFF Constant 2](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/DFF_2.png)
+
+---
+
+## 3. Unused Output Optimization
+
+Unused output optimization removes logic that doesn't affect any primary outputs, reducing area and power consumption by eliminating dead code.
+
+### Lab: counter_opt
+
+```verilog
+module counter_opt (input clk , input reset , output q);
+reg [2:0] count;
+assign q = count[0];
+
+always @(posedge clk ,posedge reset)
+begin
+	if(reset)
+		count <= 3'b000;
+	else
+		count <= count + 1;
 end
 endmodule
 ```
 
-**Functionality:**
-- D flip-flop always sets output `q` to `1` (regardless of reset or clock).
+**Explanation:** This is a 3-bit counter, but only the LSB (`count[0]`) is used as output. The synthesis tool can optimize this by removing the unused upper bits and implementing only a toggle flip-flop.
 
-![Lab 6 Output]( )
+**Before Optimization:**
+![Counter Before Optimization](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/counter_opt.png)
+
+**After Optimization:**
+![Counter After Optimization](/home/anuj-loyare/RTL-TO-GDSII/Week1/Day3/images/After_counter_opt.png)
+
+---
+
+## Synthesis Commands
+
+For all optimization labs, use the following commands:
+
+```shell
+# Read liberty file
+read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# Read verilog
+read_verilog <module_name>.v
+
+# Synthesize
+synth -top <module_name>
+
+# Clean and optimize
+opt_clean -purge
+
+# Map to library
+abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# Show schematic
+show
+```
 
 ---
 
 ## Summary
-- **Focus:** Optimization techniques for combinational and sequential circuits in digital design, with practical Verilog labs.
-  
-- **Topics Covered:**
-  1. **Constant Propagation:** Replacing variables with constant values to simplify logic and improve circuit efficiency.
-  2. **State Optimization:** Reducing states and optimizing encoding in finite state machines to use less logic and power.
-  3. **Cloning:** Duplicating logic cells/modules to improve timing and balance load.
-  4. **Retiming:** Repositioning registers in a circuit to enhance performance without altering its function.
 
-- **Labs:** Six practical Verilog labs illustrate these concepts, including examples of combinational logic optimizations and D flip-flop behaviors, each with code snippets and output images.
+This day covered three main optimization techniques:
+
+1. **Combinational Logic Optimization:** Simplifying logic expressions using constant propagation and Boolean optimization to reduce gate count and improve performance.
+
+2. **Sequential Logic Optimization:** Optimizing flip-flops and sequential circuits by identifying constant values and removing redundant sequential elements.
+
+3. **Unused Output Optimization:** Removing logic that doesn't contribute to primary outputs, significantly reducing circuit complexity when only partial outputs are used.
+
+Each optimization technique demonstrates how synthesis tools can automatically improve circuit efficiency while maintaining functional correctness.
