@@ -118,7 +118,7 @@ endmodule
 
 **After Optimization:**
 <div align="center">
-  <img src="images/After_optimization_DFF_1.png" alt="DFF Constant 1" width="70%">
+  <img src="images/After_optimization_DFF1.png" alt="DFF Constant 1" width="70%">
 </div>
 ---
 
