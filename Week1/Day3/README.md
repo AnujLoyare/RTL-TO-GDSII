@@ -1,6 +1,6 @@
-# Day 3: 🚀 Combinational and Sequential Optimization
+# Day 3: Combinational and Sequential Optimization
 
-Welcome to Day 3 of our RTL design journey! Today we dive deep into the art of circuit optimization, exploring powerful techniques that transform your designs into high-performance, area-efficient masterpieces. Get ready to unlock the secrets of combinational and sequential optimization! 
+🚀 Welcome to Day 3 of our RTL design journey! Today we dive deep into the art of circuit optimization, exploring powerful techniques that transform your designs into high-performance, area-efficient masterpieces. Get ready to unlock the secrets of combinational and sequential optimization! ⚡
 
 ---
 
@@ -14,20 +14,20 @@ Welcome to Day 3 of our RTL design journey! Today we dive deep into the art of c
 
 ## Optimization Overview
 
-### Combinational Logic Optimization
+### 🚀 Combinational Logic Optimization
 Combinational optimization involves techniques like constant propagation and Boolean logic optimization to reduce circuit complexity, improve performance, and minimize resource usage by simplifying logic expressions and removing redundant gates.
 
 **Key Techniques:**
-- **Constant Propagation:** Replaces variables with constant values during synthesis, simplifying logic and reducing circuit size
-- **Boolean Logic Optimization:** Uses Boolean algebra to minimize logic expressions and eliminate redundant gates
+- **⚡ Constant Propagation:** Replaces variables with constant values during synthesis, simplifying logic and reducing circuit size
+- **🔧 Boolean Logic Optimization:** Uses Boolean algebra to minimize logic expressions and eliminate redundant gates
 
-###  Sequential Logic Optimization
+### 🎯 Sequential Logic Optimization
 Sequential optimization focuses on optimizing circuits with memory elements through techniques like sequential constant propagation, state optimization, cloning, and retiming to improve timing performance and reduce power consumption.
 
 **Key Techniques:**
-- **State Optimization:** Reduces FSM states and optimizes encoding to minimize logic complexity
-- **Cloning:** Duplicates logic cells to balance load and improve timing performance
-- **Retiming:** Repositions registers to optimize clock period without changing functionality
+- **🔄 State Optimization:** Reduces FSM states and optimizes encoding to minimize logic complexity
+- **📋 Cloning:** Duplicates logic cells to balance load and improve timing performance
+- **⏰ Retiming:** Repositions registers to optimize clock period without changing functionality
 
 ---
 
