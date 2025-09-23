@@ -90,8 +90,8 @@ endmodule
 <div align="center">
   <img src="images/Before_Optimization_3.png" alt="Before Optimization 3" width="70%">
 </div>
-**After Optimization:**
 
+**After Optimization:**
 <div align="center">
   <img src="images/After_Optimization_3.png" alt="After Optimization 3" width="70%">
 </div>
