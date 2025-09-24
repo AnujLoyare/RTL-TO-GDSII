@@ -111,8 +111,10 @@ endmodule
 ```
 - **Function:** `y = i1` if `sel = 1`; else `y = i0`.
 
-![lab1]()
 
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 ---
 
 ### Lab 2: Synthesis Using Yosys
@@ -120,8 +122,10 @@ endmodule
 Synthesize the above MUX using Yosys.  
 _Follow the standard Yosys synthesis flow._
 
-![lab2]()
 
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 ---
 
 ### Lab 3: Gate-Level Simulation (GLS) of MUX
@@ -133,8 +137,9 @@ Use this command (adjust paths as needed):
 iverilog /path/to/primitives.v /path/to/sky130_fd_sc_hd.v ternary_operator_mux.v testbench.v
 ```
 
-![lab3]()
-
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 ---
 
 ### Lab 4: Bad MUX Example (Common Pitfalls)
@@ -166,8 +171,10 @@ always @ (*) begin
 end
 ```
 
-![lab4]()
 
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 ---
 
 ### Lab 5: GLS of Bad MUX
@@ -175,8 +182,10 @@ end
 Perform GLS on the `bad_mux`.  
 Expect simulation mismatches or warnings due to above issues.
 
-![lab5]()
 
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 ---
 
 ### Lab 6: Blocking Assignment Caveat
@@ -205,16 +214,20 @@ always @ (*) begin
 end
 ```
 
-![lab6]()
 
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 ---
 
 ### Lab 7: Synthesis of the Blocking Caveat Module
 
 Synthesize the corrected version of the module and observe the results.
 
-![lab7]()
 
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 ---
 
 ## 5. Summary
