@@ -248,7 +248,7 @@ endmodule
 Synthesis of the MUX using Yosys synthesis tool:
 
 <div align="center">
-  <img src="images/synth_ternary_image.png" alt="Ternary MUX Synthesis" width="70%">
+  <img src="images/synth_ternery_image.png" alt="Ternary MUX Synthesis" width="70%">
 </div>
 
 ### Lab 3: Gate-Level Simulation
