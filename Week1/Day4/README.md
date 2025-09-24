@@ -107,9 +107,6 @@ module good_mux (input i0, input i1, input sel, output reg y);
 endmodule
 ```
 
-<div align="center">
-  <img src="images/good_mux_synthesis.png" alt="Good MUX Synthesis" width="70%">
-</div>
 
 ## 3.2 Blocking vs Non-Blocking Assignments
 
