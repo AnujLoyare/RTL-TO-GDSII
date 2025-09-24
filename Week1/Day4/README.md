@@ -1,7 +1,6 @@
 # Introduction Gate Level Simulation(GLS) & Synthesis Simulation Mismatches
 
-Welcome to this comprehensive guide on Gate-Level Simulation and Synthesis-Simulation Mismatches! This document covers essential topics in digital design verification and common pitfalls that can lead to mismatches between simulation and synthesis results.
-
+Welcome to Day 4 of the RTL Workshop! Today we dive deep into the fascinating world of Gate-Level Simulation and uncover the mysteries behind Synthesis-Simulation Mismatches. Get ready to master the art of verification and learn how to avoid the common traps that can make your RTL behave differently than your hardware!
 ---
 
 ## Table of Contents
