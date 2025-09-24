@@ -265,12 +265,12 @@ iverilog /path/to/primitives.v /path/to/sky130_fd_sc_hd.v ternary_operator_mux.v
 ### Lab 4: Bad MUX GLS
 
 Gate-level simulation of the problematic MUX design:
-## Before GLS
+Before GLS
 <div align="center">
   <img src="images/Before_GLSimage_bad_mux.png" alt="Bad MUX GLS" width="70%">
 </div>
 
-## After GLS
+After GLS
 <div align="center">
   <img src="images/After_GLSimage_bad_mux.png" alt="Bad MUX GLS" width="70%">
 </div>
