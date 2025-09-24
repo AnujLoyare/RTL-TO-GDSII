@@ -265,7 +265,12 @@ iverilog /path/to/primitives.v /path/to/sky130_fd_sc_hd.v ternary_operator_mux.v
 ### Lab 4: Bad MUX GLS
 
 Gate-level simulation of the problematic MUX design:
+## Before GLS
+<div align="center">
+  <img src="images/Before_GLSimage_bad_mux.png" alt="Bad MUX GLS" width="70%">
+</div>
 
+## After GLS
 <div align="center">
   <img src="images/After_GLSimage_bad_mux.png" alt="Bad MUX GLS" width="70%">
 </div>
@@ -278,6 +283,10 @@ Synthesis results for the blocking assignment caveat example:
   <img src="images/synth_blocking_caveat_image.png" alt="Blocking Caveat Synthesis" width="70%">
 </div>
 
+## After GLS
+<div align="center">
+  <img src="images/After_GLSimage_blocking_caveat.png" alt="Bad MUX GLS" width="70%">
+</div>
 ---
 
 ## 5. Summary
