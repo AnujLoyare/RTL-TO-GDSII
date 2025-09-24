@@ -86,7 +86,7 @@ endmodule
 ```
 
 <div align="center">
-  <img src="images/bad_mux_rtl_sim.png" alt="Bad MUX RTL Simulation" width="70%">
+  <img src="images/RTL_bad_mux.png" alt="Bad MUX RTL Simulation" width="70%">
 </div>
 
 **Issues with this code:**
@@ -151,8 +151,10 @@ endmodule
 ```
 
 <div align="center">
-  <img src="images/blocking_caveat_sim.png" alt="Blocking Caveat Simulation" width="70%">
+  <img src="images/RTL_Blocking_caveat.png" alt="RTL Blocking Caveat Simulation" width="70%">
 </div>
+
+
 
 **Problem**: The order of blocking assignments matters. Here, `d` uses the previous value of `x`, not the newly computed value.
 
@@ -168,7 +170,7 @@ endmodule
 ```
 
 <div align="center">
-  <img src="images/blocking_caveat_fixed.png" alt="Blocking Caveat Fixed" width="70%">
+  <img src="images/After_GLSimage_blocking_caveat.png" alt="Blocking Caveat Fixed" width="70%">
 </div>
 
 ## 3.3 Non-Standard Verilog Coding
@@ -241,7 +243,7 @@ endmodule
 ```
 
 <div align="center">
-  <img src="images/ternary_mux_rtl.png" alt="Ternary MUX RTL" width="70%">
+  <img src="images/RTL_ternery.png" alt="Ternary MUX RTL" width="70%">
 </div>
 
 ### Lab 2: Synthesis Using Yosys
@@ -249,7 +251,7 @@ endmodule
 Synthesis of the MUX using Yosys synthesis tool:
 
 <div align="center">
-  <img src="images/ternary_mux_synthesis.png" alt="Ternary MUX Synthesis" width="70%">
+  <img src="images/synth_ternary_image.png" alt="Ternary MUX Synthesis" width="70%">
 </div>
 
 ### Lab 3: Gate-Level Simulation
@@ -260,7 +262,7 @@ iverilog /path/to/primitives.v /path/to/sky130_fd_sc_hd.v ternary_operator_mux.v
 ```
 
 <div align="center">
-  <img src="images/ternary_mux_gls.png" alt="Ternary MUX GLS" width="70%">
+  <img src="images/After_GLSimage_ternary.png" alt="Ternary MUX GLS" width="70%">
 </div>
 
 ### Lab 4: Bad MUX GLS
@@ -268,7 +270,7 @@ iverilog /path/to/primitives.v /path/to/sky130_fd_sc_hd.v ternary_operator_mux.v
 Gate-level simulation of the problematic MUX design:
 
 <div align="center">
-  <img src="images/bad_mux_gls.png" alt="Bad MUX GLS" width="70%">
+  <img src="images/After_GLSimage_bad_mux.png" alt="Bad MUX GLS" width="70%">
 </div>
 
 ### Lab 5: Blocking Caveat Synthesis
@@ -276,7 +278,7 @@ Gate-level simulation of the problematic MUX design:
 Synthesis results for the blocking assignment caveat example:
 
 <div align="center">
-  <img src="images/blocking_caveat_synthesis.png" alt="Blocking Caveat Synthesis" width="70%">
+  <img src="images/synth_blocking_caveat_image.png" alt="Blocking Caveat Synthesis" width="70%">
 </div>
 
 ---
