@@ -87,8 +87,10 @@ A **System on a Chip (SoC)** is like a mini-computer built on a single chip. Ins
 - **Heat Issues**: Packing many components together can lead to overheating. SoCs need cooling solutions to work well over time.
 - **Less Flexibility**: Once an SoC is designed, it's hard to change. This is because each SoC is built for specific tasks or devices.
 
-![Apple-M1-Architecture-1024x475](https://github.com/user-attachments/assets/a3428bc5-1ddd-4bdc-b3a6-10a74205c8d8)
-
+![](https://github.com/user-attachments/assets/a3428bc5-1ddd-4bdc-b3a6-10a74205c8d8)
+<div align="center">
+  <img src="images/" alt="Apple-M1-Architecture-1024x475" width="70%">
+</div>
 ---
 
 ### 📝 Summary
@@ -123,7 +125,9 @@ Custom-designed for specific, high-performance tasks, these SoCs excel in areas 
 ### 🔄 SoC Design Flow
 
 ![img_61d89021d8d47 copy](https://github.com/user-attachments/assets/54b5e8f9-f03d-4b53-a535-859360589119)
-
+<div align="center">
+  <img src="" alt="" width="70%">
+</div>
 </details>
 
 ---
@@ -150,7 +154,9 @@ Within BabySoC, RVMYTH plays a central role in processing data. Specifically, it
 The DAC receives the processed digital values from RVMYTH and converts them into an analog signal. This output, saved in a file named `OUT`, can be fed to external devices like TVs and mobile phones, which interpret the analog signals to produce sound or video. This functionality enables BabySoC to interface with consumer electronics, showcasing how digital data can drive multimedia outputs in real-world applications.
 
 ![333622249-04238eab-4d48-4d57-9061-f8b660a83d6e](https://github.com/user-attachments/assets/38253bb7-b658-496d-a043-15402219e089)
-
+<div align="center">
+  <img src="images/" alt="" width="70%">
+</div>
 ---
 
 ### 🧩 BabySoC Components
@@ -176,7 +182,9 @@ A Phase-Locked Loop (PLL) is a control system that generates an output signal wh
 #### **Block Diagram**
 
 ![333810875-fd7730e9-a867-4ce3-bfc6-9453e3d8ad14](https://github.com/user-attachments/assets/217d602f-003d-4606-9bca-855a4832764c)
-
+<div align="center">
+  <img src="images/" alt="" width="70%">
+</div>
 A PLL typically consists of three main components:
 
 - **Phase Detector:** Compares the input signal (reference) with the output signal from the oscillator and generates an error signal based on the phase difference.
@@ -236,12 +244,16 @@ There are primarily two common types of DACs:
 Uses resistors with different weights to convert the digital signal into an analog voltage.
 
 ![binary_weighted_resistors](https://github.com/user-attachments/assets/344e4ffd-7509-41e7-ac42-21a553b3db11)
-
+<div align="center">
+  <img src="images/" alt="" width="70%">
+</div>
 ##### **R-2R Ladder DAC**
 Uses a repeating network of resistors to achieve the same effect, allowing for simpler design and easier scaling.
 
 ![comb99 gif copy](https://github.com/user-attachments/assets/5c15f424-1a94-4424-b019-a76c0ca0db43)
-
+<div align="center">
+  <img src="images/" alt="" width="70%">
+</div>
 #### **In VSDBabySoC:**
 
 In the VSDBabySoC design, we are utilizing a **10-bit DAC**, which means it can take a digital input represented by 10 bits and convert it into an analog output.
