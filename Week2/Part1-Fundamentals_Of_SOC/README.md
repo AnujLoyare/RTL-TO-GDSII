@@ -88,7 +88,7 @@ A **System on a Chip (SoC)** is like a mini-computer built on a single chip. Ins
 - **Less Flexibility**: Once an SoC is designed, it's hard to change. This is because each SoC is built for specific tasks or devices.
 
 <div align="center">
-  <img src="images/Screenshot from 2025-09-29 21-34-31.png" alt="Apple-M1-Architecture-1024x475" width="70%">
+  <img src="Images/Screenshot from 2025-09-29 21-34-31.png" alt="Apple-M1-Architecture-1024x475" width="70%">
 </div>
 ---
 
@@ -124,7 +124,7 @@ Custom-designed for specific, high-performance tasks, these SoCs excel in areas 
 ### 🔄 SoC Design Flow
 
 <div align="center">
-  <img src="soc_specs.png" alt="SoC Design Flow" width="70%">
+  <img src="Images/soc_specs.png" alt="SoC Design Flow" width="70%">
 </div>
 </details>
 
@@ -152,7 +152,7 @@ Within BabySoC, RVMYTH plays a central role in processing data. Specifically, it
 The DAC receives the processed digital values from RVMYTH and converts them into an analog signal. This output, saved in a file named `OUT`, can be fed to external devices like TVs and mobile phones, which interpret the analog signals to produce sound or video. This functionality enables BabySoC to interface with consumer electronics, showcasing how digital data can drive multimedia outputs in real-world applications.
 
 <div align="center">
-  <img src="images/VSD_BabySOC.png" alt="VSD_BabySOC" width="70%">
+  <img src="Images/VSD_BabySOC.png" alt="VSD_BabySOC" width="70%">
 </div>
 ---
 
@@ -179,7 +179,7 @@ A Phase-Locked Loop (PLL) is a control system that generates an output signal wh
 #### **Block Diagram**
 
 <div align="center">
-  <img src="images/PLL.png" alt="Phase-Locked Loop" width="70%">
+  <img src="Images/PLL.png" alt="Phase-Locked Loop" width="70%">
 </div>
 A PLL typically consists of three main components:
 
@@ -240,13 +240,13 @@ There are primarily two common types of DACs:
 Uses resistors with different weights to convert the digital signal into an analog voltage.
 
 <div align="center">
-  <img src="images/DAC_1.png" alt="Weighted Resistor DAC" width="70%">
+  <img src="Images/DAC_1.png" alt="Weighted Resistor DAC" width="70%">
 </div>
 ##### **R-2R Ladder DAC**
 Uses a repeating network of resistors to achieve the same effect, allowing for simpler design and easier scaling.
 
 <div align="center">
-  <img src="images/DAC_2.png" alt="Weighted Resistor DAC" width="70%">
+  <img src="Images/DAC_2.png" alt="Weighted Resistor DAC" width="70%">
 </div>
 #### **In VSDBabySoC:**
 
