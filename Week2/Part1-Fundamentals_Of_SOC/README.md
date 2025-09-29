@@ -242,12 +242,14 @@ Uses resistors with different weights to convert the digital signal into an anal
 <div align="center">
   <img src="Images/DAC_1.png" alt="Weighted Resistor DAC" width="70%">
 </div>
+
 ##### **R-2R Ladder DAC**
 Uses a repeating network of resistors to achieve the same effect, allowing for simpler design and easier scaling.
 
 <div align="center">
   <img src="Images/DAC_2.png" alt="Weighted Resistor DAC" width="70%">
 </div>
+
 #### **In VSDBabySoC:**
 
 In the VSDBabySoC design, we are utilizing a **10-bit DAC**, which means it can take a digital input represented by 10 bits and convert it into an analog output.
@@ -274,5 +276,3 @@ By the end of this module, you should understand:
 - ✅ The practical applications of SoC technology in modern devices
 
 ---
-
-**📍 Repository Path:** `Week2/part1Fundamentals_Of_SOC`
