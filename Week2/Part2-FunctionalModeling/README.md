@@ -112,6 +112,18 @@ cd output/pre_synth_sim
 ./pre_synth_sim.out
 ```
 
+<div align="center">
+  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+</div>
+
+<div align="center">
+  <img src="Images/pre_synth_waveform.png" alt="WAveform" width="70%">
+</div>
+
+<div align="center">
+  <img src="Images/pre_synth_1_reset_operation.png" alt="RSEST operation" width="70%">
+</div>
+
 **Explanation:**
 - `-DPRE_SYNTH_SIM`: Defines the PRE_SYNTH_SIM macro for conditional compilation in the testbench
 - The resulting `pre_synth_sim.vcd` file can be viewed in GTKWave
