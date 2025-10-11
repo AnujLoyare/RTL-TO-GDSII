@@ -44,7 +44,27 @@ OpenSTA (Open Static Timing Analyzer) is a versatile tool used for timing analys
      read_sdc /OpenSTA/examples/BabySOC/vsdbabysoc_synthesis.sdc
      report_checks
 
-     
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-11 01-09-10.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-11 01-09-19.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-11 01-09-28.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-11 01-09-04.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-11 01-09-11.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-11 01-09-17.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/timing_analysis.png" alt="Terminal" width="70%">
+</div>
      
 ### **VSDBabySoC PVT Corner Analysis (Post-Synthesis Timing)**  
 STA is performed across all PVT corners to validate that the design meets timing requirements.
