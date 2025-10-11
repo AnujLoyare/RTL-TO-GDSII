@@ -27,8 +27,9 @@ Here is the step-by-step execution plan for running the  commands manually:
 ```bash
 yosys
 ```
+
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-04-23.png" alt="Terminal" width="70%">
 </div>
 
 
@@ -38,7 +39,9 @@ read_verilog /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/vsdbabysoc.v
 read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/rvmyth.v
 read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/clk_gate.v
 
-```<div align="center">
+```
+
+<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div>
 <div align="center">
@@ -65,7 +68,9 @@ read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd
 ### **Step 3: Run Synthesis Targeting `vsdbabysoc`**
 ```yosys
 synth -top vsdbabysoc
-```<div align="center">
+```
+
+<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div><div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
@@ -94,7 +99,9 @@ dfflibmap -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_h
 ```yosys
 opt
 abc -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib -script +strash;scorr;ifraig;retime;{D};strash;dch,-f;map,-M,1,{D}
-```<div align="center">
+```
+
+<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div><div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
@@ -108,7 +115,8 @@ flatten
 setundef -zero
 clean -purge
 rename -enumerate
-```<div align="center">
+```
+<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div>
 
@@ -117,7 +125,8 @@ rename -enumerate
 ### **Step 7: Check Statistics**
 ```yosys
 stat
-```<div align="center">
+```
+<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div><div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
@@ -130,7 +139,8 @@ stat
 ### **Step 8: Write the Synthesized Netlist**
 ```yosys
 write_verilog -noattr /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
-```<div align="center">
+```
+<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div>
 
