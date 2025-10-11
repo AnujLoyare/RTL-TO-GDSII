@@ -63,7 +63,7 @@ OpenSTA (Open Static Timing Analyzer) is a versatile tool used for timing analys
   <img src="Images/Screenshot from 2025-10-11 15-17-17.png" alt="Terminal" width="70%">
 </div>
 <div align="center">
-  <img src="Images/timing_analysis.png" alt="Terminal" width="70%">
+  <img src="Images/timing_analysis1.png" alt="Terminal" width="70%">
 </div>
      
 ### **VSDBabySoC PVT Corner Analysis (Post-Synthesis Timing)**  
