@@ -33,7 +33,7 @@ yosys
 
 Inside the Yosys shell, run:
 ```yosys
-read_verilog /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/vsdbabysoc.v
+read_verilog  /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/src/module/vsdbabysoc.v
 read_verilog -I /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/src/include /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/src/module/rvmyth.v
 read_verilog -I /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/src/include /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srcmodule/clk_gate.v
 
@@ -48,9 +48,7 @@ Inside the same Yosys shell, run:
 read_liberty -lib /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/avsdpll.lib
 read_liberty -lib /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/avsddac.lib
 read_liberty -lib /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
+```
 
 ---
 
@@ -65,9 +63,7 @@ synth -top vsdbabysoc
 ### **Step 4: Map D Flip-Flops to Standard Cells**
 ```yosys
 dfflibmap -liberty /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
+```
 
 ---
 
