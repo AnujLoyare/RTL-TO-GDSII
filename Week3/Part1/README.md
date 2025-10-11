@@ -42,13 +42,13 @@ read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya1
 ```
 
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-04-29.png" alt="Terminal" width="70%">
 </div>
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-06-17.png" alt="Terminal" width="70%">
 </div>
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-13-13.png" alt="Terminal" width="70%">
 </div>
 
 ---
@@ -71,17 +71,17 @@ synth -top vsdbabysoc
 ```
 
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-13-06.png" alt="Terminal" width="70%">
 </div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-13-25.png" alt="Terminal" width="70%">
 </div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-14-32.png" alt="Terminal" width="70%">
 </div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-17-43.png" alt="Terminal" width="70%">
 </div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-18-03.png" alt="Terminal" width="70%">
 </div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Screenshot from 2025-10-09 22-18-37.png" alt="Terminal" width="70%">
 </div>
 
 ---
@@ -102,9 +102,9 @@ abc -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_
 ```
 
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-18-45.png" alt="Terminal" width="70%">
 </div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Screenshot from 2025-10-09 22-19-59.png" alt="Terminal" width="70%">
 </div>
 
 ---
@@ -173,11 +173,9 @@ gtkwave post_synth_sim.vcd
 ```
 ---
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 21-01-29.png" alt="Terminal" width="70%">
 </div>
 <div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+  <img src="Images/Screenshot from 2025-10-09 22-47-13.png" alt="Terminal" width="70%">
 </div>
-<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
+
