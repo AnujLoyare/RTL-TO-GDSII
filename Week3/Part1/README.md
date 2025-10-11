@@ -34,8 +34,8 @@ yosys
 Inside the Yosys shell, run:
 ```yosys
 read_verilog /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/vsdbabysoc.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/rvmyth.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/clk_gate.v
+read_verilog -I /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/src/include /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/src/module/rvmyth.v
+read_verilog -I /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/src/include /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srcmodule/clk_gate.v
 
 ```
 
@@ -45,9 +45,9 @@ read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya1
 ### **Step 2: Load the Liberty Files for Synthesis**
 Inside the same Yosys shell, run:
 ```yosys
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsdpll.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsddac.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_liberty -lib /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/avsdpll.lib
+read_liberty -lib /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/avsddac.lib
+read_liberty -lib /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/sky130_fd_sc_hd__tt_025C_1v80.lib
 ```<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div>
@@ -64,7 +64,7 @@ synth -top vsdbabysoc
 
 ### **Step 4: Map D Flip-Flops to Standard Cells**
 ```yosys
-dfflibmap -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
+dfflibmap -liberty /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/sky130_fd_sc_hd__tt_025C_1v80.lib
 ```<div align="center">
   <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
 </div>
@@ -74,7 +74,7 @@ dfflibmap -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_h
 ### **Step 5: Perform Optimization and Technology Mapping**
 ```yosys
 opt
-abc -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib -script +strash;scorr;ifraig;retime;{D};strash;dch,-f;map,-M,1,{D}
+abc -liberty /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/srclib/sky130_fd_sc_hd__tt_025C_1v80.lib -script +strash;scorr;ifraig;retime;{D};strash;dch,-f;map,-M,1,{D}
 ```
 
 
@@ -101,7 +101,7 @@ stat
 
 ### **Step 8: Write the Synthesized Netlist**
 ```yosys
-write_verilog -noattr /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
+write_verilog -noattr /home/anuj-loyare/RTL-TO-GDSII/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
 ```
 
 
