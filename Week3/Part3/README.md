@@ -118,3 +118,11 @@ The timing libraries can be downloaded from:
 |  ss_n40C_1v44  |-22.7070  | 0.9909   | -22.7070  | -17801.5625  |
 |  ss_n40C_1v76     |-5.2654   | 0.5038   | -5.2654   | -3208.7793   |
 
+
+![Screenshot 2024-12-08 064226](https://github.com/user-attachments/assets/c2735063-c6c8-4a51-8f6a-2d17818fa2e5)
+
+![Screenshot 2024-12-08 065041](https://github.com/user-attachments/assets/769c8079-dfea-422e-8cc7-8e6240420b1b)
+
+![Screenshot 2024-12-08 065913](https://github.com/user-attachments/assets/fc904026-5a3c-4bca-8e41-1624474f4852)
+
+![Screenshot 2024-12-08 070712](https://github.com/user-attachments/assets/6daea128-878b-4286-96ab-08ea7bdd3b83)
