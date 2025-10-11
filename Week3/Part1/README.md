@@ -164,19 +164,7 @@ gtkwave post_synth_sim.vcd
 </div><div align="center">
   <img src="Screenshot from 2025-10-09 22-19-59.png" alt="Terminal" width="70%">
 </div>
-<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
-<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
-<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
+
 
 <div align="center">
   <img src="Images/Screenshot from 2025-10-09 21-01-29.png" alt="Terminal" width="70%">
