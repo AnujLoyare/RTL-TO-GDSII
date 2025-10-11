@@ -28,9 +28,7 @@ Here is the step-by-step execution plan for running the  commands manually:
 yosys
 ```
 
-<div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-04-23.png" alt="Terminal" width="70%">
-</div>
+
 
 
 Inside the Yosys shell, run:
@@ -41,15 +39,6 @@ read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya1
 
 ```
 
-<div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-04-29.png" alt="Terminal" width="70%">
-</div>
-<div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-06-17.png" alt="Terminal" width="70%">
-</div>
-<div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-13-13.png" alt="Terminal" width="70%">
-</div>
 
 ---
 
@@ -70,19 +59,6 @@ read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd
 synth -top vsdbabysoc
 ```
 
-<div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-13-06.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-13-25.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-14-32.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-17-43.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-18-03.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Screenshot from 2025-10-09 22-18-37.png" alt="Terminal" width="70%">
-</div>
 
 ---
 
@@ -101,11 +77,6 @@ opt
 abc -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib -script +strash;scorr;ifraig;retime;{D};strash;dch,-f;map,-M,1,{D}
 ```
 
-<div align="center">
-  <img src="Images/Screenshot from 2025-10-09 22-18-45.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Screenshot from 2025-10-09 22-19-59.png" alt="Terminal" width="70%">
-</div>
 
 ---
 
@@ -116,9 +87,7 @@ setundef -zero
 clean -purge
 rename -enumerate
 ```
-<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
+
 
 ---
 
@@ -126,13 +95,7 @@ rename -enumerate
 ```yosys
 stat
 ```
-<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div><div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
+
 
 ---
 
@@ -140,9 +103,7 @@ stat
 ```yosys
 write_verilog -noattr /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
 ```
-<div align="center">
-  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
-</div>
+
 
 ---
 
@@ -172,6 +133,51 @@ cd output/post_synth_sim/
 gtkwave post_synth_sim.vcd
 ```
 ---
+
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-04-23.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-04-29.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-06-17.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-13-13.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-13-06.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-13-25.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-14-32.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-17-43.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-18-03.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Screenshot from 2025-10-09 22-18-37.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-09 22-18-45.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Screenshot from 2025-10-09 22-19-59.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+</div><div align="center">
+  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/pre_synth_terminal.png" alt="Terminal" width="70%">
+</div>
+
 <div align="center">
   <img src="Images/Screenshot from 2025-10-09 21-01-29.png" alt="Terminal" width="70%">
 </div>
