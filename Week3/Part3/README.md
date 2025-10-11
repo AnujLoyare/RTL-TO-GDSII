@@ -1,151 +1,119 @@
-# GLS OF BABYSOC
-## POST-SYNTHESIS SIMULATION
+# Installation of OpenSTA
+OpenSTA (Open Static Timing Analyzer) is a versatile tool used for timing analysis in digital circuits. To install OpenSTA, ensure your system is set up with the necessary build tools like GCC, Make, and Tcl/Tk development libraries. The installation process typically involves cloning the OpenSTA GitHub repository, building the source code, and adding the compiled binary to your system's PATH for easy access.
 
-### Purpose of GLS:
-Gate-Level Simulation is used to verify the functionality of a design after the synthesis process. Unlike behavioral or RTL (Register Transfer Level) simulations, which are performed at a higher level of abstraction, GLS works on the netlist generated post-synthesis. This netlist includes the actual gates and connections used to implement the design.
-
-### Key Aspects of GLS for BabySoC:
-1. **Verification with Timing Information:**
-   - GLS is performed using Standard Delay Format (SDF) files to ensure timing correctness.
-   - This checks if the SoC behaves as expected under real-world timing constraints.
-
-2. **Design Validation Post-Synthesis:**
-   - Confirms that the design's logical behavior remains correct after mapping it to the gate-level representation.
-   - Ensures that the design is free from issues like metastability or glitches.
-
-3. **Simulation Tools:**
-   - Tools like Icarus Verilog or a similar simulator can be used for compiling and running the gate-level netlist.
-   - Waveforms are typically analyzed using GTKWave.
-
-4. **Importance for BabySoC:**
-   - BabySoC consists of multiple modules like the RISC-V processor, PLL, and DAC. GLS ensures that these modules interact correctly and meet the timing requirements in the synthesized design.
+##### the OpenSTA tool is installed
 
 
-Here is the step-by-step execution plan for running the  commands manually:
----
-### **Step 1: Load the Top-Level Design and Supporting Modules**
-```bash
-yosys
-```
 
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (4)](https://github.com/user-attachments/assets/69c01da4-592e-4165-afcf-d42eb0eab08c)
+## Static timing analysis using OpenSTA
+#### Timing Ananlysis Using In line Commands
+    
+       read_liberty /OpenSTA/examples/nangate45_slow.lib.gz
+       read_verilog /OpenSTA/examples/example1.v
+       link_design top
+       create_clock -name clk -period 10 {clk1 clk2 clk3}
+       set_input_delay -clock clk 0 {in1 in2}
+       report_checks
 
 
-Inside the Yosys shell, run:
-```yosys
-read_verilog /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/vsdbabysoc.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/rvmyth.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/clk_gate.v
+#### Timing Analysis using TCL file
+    read_liberty-min sky130_fd sc hd tt 025C 1v80.lib
+    read liberty max sky130 fd sc hd tt 025C 1v80.lib
+    read_liberty-min avsdpll.lib
+    read liberty -max avsdpll.lib
+    read_liberty min avsddac.lib
+    read_liberty -max avsddąc.lib
+    read verilog vsdbabysoc.synth.v
+    link design vsdbabysoc
+    read_sdc vsdbabysoc_synthesis.sdc
+    report checks
+    
+    
 
-```
-![WhatsApp Image 2024-11-16 at 5 54 12 AM](https://github.com/user-attachments/assets/648dc511-7c3c-496a-97c7-a24aa6cb0bae)
 
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (2)](https://github.com/user-attachments/assets/6db87310-6389-4f7c-9418-40e4f6780c18)
 
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (1)](https://github.com/user-attachments/assets/8eddf6c8-c3fb-44d9-b804-5eb836558c44)
+#### VSDBabySoC basic timing analysis
+     read_liberty -min /OpenSTA/examples/timing_libs/sky130_fd_sc_hd__tt_025C_1v80.lib
+     read_liberty -max /OpenSTA/examples/timing_libs/sky130_fd_sc_hd__tt_025C_1v80.lib
+     read_liberty -min /OpenSTA/examples/timing_libs/avsdpll.lib
+     read_liberty -max /OpenSTA/examples/timing_libs/avsdpll.lib
+     read_liberty -min /OpenSTA/examples/timing_libs/avsddac.lib
+     read_liberty -max /OpenSTA/examples/timing_libs/avsddac.lib
+     read_verilog /OpenSTA/examples/BabySOC/vsdbabysoc.synth.v
+     link_design vsdbabysoc
+     read_sdc /OpenSTA/examples/BabySOC/vsdbabysoc_synthesis.sdc
+     report_checks
 
----
+     
+     
+### **VSDBabySoC PVT Corner Analysis (Post-Synthesis Timing)**  
+STA is performed across all PVT corners to validate that the design meets timing requirements.
 
-### **Step 2: Load the Liberty Files for Synthesis**
-Inside the same Yosys shell, run:
-```yosys
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsdpll.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsddac.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```
-![WhatsApp Image 2024-11-16 at 5 20 29 AM](https://github.com/user-attachments/assets/2ec505bd-8004-415f-ba9c-3b76a41562f8)
+The worst max path (Setup-critical) corners in sub-40nm nodes are generally:  
+- **ss_LowTemp_LowVolt**  
+- **ss_HighTemp_LowVolt** *(Slowest corners)*  
 
----
+The worst min path (Hold-critical) corners are:  
+- **ff_LowTemp_HighVolt**  
+- **ff_HighTemp_HighVolt** *(Fastest corners)*  
 
-### **Step 3: Run Synthesis Targeting `vsdbabysoc`**
-```yosys
-synth -top vsdbabysoc
-```
-![WhatsApp Image 2024-11-16 at 5 20 28 AM](https://github.com/user-attachments/assets/8a49050d-55cb-4ae2-9a93-5fe7c2c72710)
-![WhatsApp Image 2024-11-16 at 5 20 26 AM](https://github.com/user-attachments/assets/f00545e7-bb37-4444-80e7-0881938fb634)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM (2)](https://github.com/user-attachments/assets/655dfaaf-bece-47dc-8a24-bf257e064a4f)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM (1)](https://github.com/user-attachments/assets/5d7a9d12-7722-432c-8ad6-270be51b1df9)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM](https://github.com/user-attachments/assets/51f25b92-c968-4cf3-b553-21ecdbefc828)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (8)](https://github.com/user-attachments/assets/241a089c-ce62-4f2c-8c6b-9e76d3929197)
+The following TCL script can be executed to perform STA for the available PVT corners using the Sky130 timing libraries.  
+The timing libraries can be downloaded from:  
+[https://github.com/efabless/skywater-pdk-libs-sky130_fd_sc_hd/tree/master/timing](https://github.com/efabless/skywater-pdk-libs-sky130_fd_sc_hd/tree/master/timing)  
 
----
+#### the TCL file is 
+     set list_of_lib_files(1) "sky130_fd_sc_hd__tt_025C_1v80.lib"
+     set list_of_lib_files(2) "sky130_fd_sc_hd__ff_100C_1v65.lib"
+     set list_of_lib_files(3) "sky130_fd_sc_hd__ff_100C_1v95.lib"
+     set list_of_lib_files(4) "sky130_fd_sc_hd__ff_n40C_1v56.lib"
+     set list_of_lib_files(5) "sky130_fd_sc_hd__ff_n40C_1v65.lib"
+     set list_of_lib_files(6) "sky130_fd_sc_hd__ff_n40C_1v76.lib"
+     set list_of_lib_files(7) "sky130_fd_sc_hd__ss_100C_1v40.lib"
+     set list_of_lib_files(8) "sky130_fd_sc_hd__ss_100C_1v60.lib"
+     set list_of_lib_files(9) "sky130_fd_sc_hd__ss_n40C_1v28.lib"
+     set list_of_lib_files(10) "sky130_fd_sc_hd__ss_n40C_1v35.lib"
+     set list_of_lib_files(11) "sky130_fd_sc_hd__ss_n40C_1v40.lib"
+     set list_of_lib_files(12) "sky130_fd_sc_hd__ss_n40C_1v44.lib"
+     set list_of_lib_files(13) "sky130_fd_sc_hd__ss_n40C_1v76.lib"
 
-### **Step 4: Map D Flip-Flops to Standard Cells**
-```yosys
-dfflibmap -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (7)](https://github.com/user-attachments/assets/566b121d-a5da-47c2-a09b-1660592569c5)
+     read_liberty /OpenSTA/examples/timing_libs/avsdpll.lib
+     read_liberty /OpenSTA/examples/timing_libs/avsddac.lib
 
----
+     for {set i 1} {$i <= [array size list_of_lib_files]} {incr i} {
+     read_liberty /OpenSTA/examples/timing_libs/$list_of_lib_files($i)
+     read_verilog /OpenSTA/examples/BabySOC/vsdbabysoc.synth.v
+     link_design vsdbabysoc
+     current_design
+     read_sdc /OpenSTA/examples/BabySOC/vsdbabysoc_synthesis.sdc
+     check_setup -verbose
+     report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits {4} > 
+     /OpenSTA/examples/BabySOC/STA_OUPUT/min_max_$list_of_lib_files($i).txt
 
-### **Step 5: Perform Optimization and Technology Mapping**
-```yosys
-opt
-abc -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib -script +strash;scorr;ifraig;retime;{D};strash;dch,-f;map,-M,1,{D}
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (6)](https://github.com/user-attachments/assets/5657a167-e0e2-431a-882e-4a785b059b5d)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (5)](https://github.com/user-attachments/assets/a0ab61ba-24dc-4b9b-83fa-eb5b78f79f40)
+     exec echo "$list_of_lib_files($i)" >> /OpenSTA/examples/BabySOC/STA_OUPUT/sta_worst_max_slack.txt
+     report_worst_slack -max -digits {4} >> /OpenSTA/examples/BabySOC/STA_OUPUT/sta_worst_max_slack.txt
 
----
+     exec echo "$list_of_lib_files($i)" >> /OpenSTA/examples/BabySOC/STA_OUPUT/sta_worst_min_slack.txt
+     report_worst_slack -min -digits {4} >> /OpenSTA/examples/BabySOC/STA_OUPUT/sta_worst_min_slack.txt
 
-### **Step 6: Perform Final Clean-Up and Renaming**
-```yosys
-flatten
-setundef -zero
-clean -purge
-rename -enumerate
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (4)](https://github.com/user-attachments/assets/e2fd7bc4-5e8a-4236-84dc-002887f3eb82)
+     exec echo "$list_of_lib_files($i)" >> /OpenSTA/examples/BabySOC/STA_OUPUT/sta_tns.txt
+     report_tns -digits {4} >> /OpenSTA/examples/BabySoO/STA_OUPUT/sta_tns.txt
 
----
-
-### **Step 7: Check Statistics**
-```yosys
-stat
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (3)](https://github.com/user-attachments/assets/292c9093-9a6d-417e-b094-0b8a6e27e7c3)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (2)](https://github.com/user-attachments/assets/ce8ad45b-92ae-4cc8-a4dd-0f52028e078e)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (1)](https://github.com/user-attachments/assets/e1741767-2b83-4d88-909e-e5d4c73411f4)
-
----
-
-### **Step 8: Write the Synthesized Netlist**
-```yosys
-write_verilog -noattr /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM](https://github.com/user-attachments/assets/1e0444b4-ad66-4798-b7f7-7bc1e13cf88a)
-
----
-
-## POST_SYNTHESIS SIMULATION AND WAVEFORMS
----
-
-### **Step 1: Compile the Testbench**
-Run the following `iverilog` command to compile the testbench:
-```bash
-iverilog -o /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/post_synth_sim.out -DPOST_SYNTH_SIM -DFUNCTIONAL -DUNIT_DELAY=#1 -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/testbench.v
-```
----
-### **Step 2: Navigate to the Post-Synthesis Simulation Output Directory**
-```bash
-cd output/post_synth_sim/
-```
----
-### **Step 3: Run the Simulation**
-
-```bash
-./post_synth_sim.out
-```
----
-### **Step 4: View the Waveforms in GTKWave**
-
-```bash
-gtkwave post_synth_sim.vcd
-```
----
-
-![WhatsApp Image 2024-11-25 at 9 07 01 PM](https://github.com/user-attachments/assets/9d79b832-7315-46ed-b028-e2dd5d14d27a)
-
-![WhatsApp Image 2024-11-25 at 9 07 01 PM (2)](https://github.com/user-attachments/assets/0a6d272d-1aae-45b5-b6aa-914a0087df84)
-
-![WhatsApp Image 2024-11-25 at 9 07 01 PM (1)](https://github.com/user-attachments/assets/239557c2-2447-4cd1-a18f-fb1966feebf2)
+     exec echo "$list_of_lib_files($i)" >> /OpenSTA/examples/BabySOC/STA_OUPUT/sta_wns.txt
+     report_wns -digits {4} >> /OpenSTA/examples/BabySOC/STA_OUPUT/sta_wns.txt
+     }
+     
+| PVT_CORNER    | Worst Setup Slack    | Worst Hold Slack    | WNS    | TNS   |
+|-------------|-------------|-------------|-------------|-------------|
+|  tt_025C_1v80    |2.2603   | 0.3096    | 0   | 0    |
+|  ff_100C_1v65     |4.1853   | 0.2491    | 0    | 0    |
+|  ff_100C_1v95    |5.5202    | 0.1960    | 0    | 0    |
+|  ff_n40C_1v56   |1.8047   | 0.2915   | 0    | 0    |
+|  ff_n40C_1v65     |3.1788    | 0.2551   | 0   | 0    |
+|  ff_n40C_1v76  |4.2413  | 0.2243    | 0   | 0    |
+|  ss_100C_1v40    |-11.2888   | 0.9053    | -11.2888  | -9245.0244   |
+|  ss_100C_1v60     |-4.8042   | 0.6420   | -4.8042  | -3378.2246    |
+|  ss_n40C_1v28    |-55.7561   | 1.8296    | -55.7561    | -46170.3242   |
+|  ss_n40C_1v35   |-35.1855  | 1.3475   | -35.1855   | -28713.4316   |
+|  ss_n40C_1v40|-27.0853  | 1.1249  | -27.0853   | -21725.4824   |
+|  ss_n40C_1v44  |-22.7070  | 0.9909   | -22.7070  | -17801.5625  |
+|  ss_n40C_1v76     |-5.2654   | 0.5038   | -5.2654   | -3208.7793   |
