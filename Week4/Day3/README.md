@@ -416,7 +416,7 @@ ngspice day3_inv_tran_wp084_wn036.spice
 
 ```bash
 # Plot transient waveforms
-plot out vs time in vs time
+plot out vs time in 
 ```
 
 **Delay Measurements Using Cursors:**
