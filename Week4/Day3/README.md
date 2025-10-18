@@ -535,8 +535,6 @@ tpd_avg = 4.200e-11 (42.0 ps) ← Average delay
 plot out vs time in vs time
 ```
 
-
-
 **Delay Measurements Using Cursors:**
 
 Inside NGSpice plot window:
@@ -557,31 +555,22 @@ Inside NGSpice plot window:
 ```
 tpd = (tpdr + tpdf) / 2 ≈ 42 ps
 ```
+<div align="center">
+  <img src="Images/one.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/two.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/three.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/four.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/five.png" alt="Terminal" width="70%">
+</div>
 
----
-
-### Additional Measurements
-
-**Rise Time (tr):**
-- Time for output to transition from 10% to 90% of VDD
-- Measure: Vout from 0.18V to 1.62V
-
-**Fall Time (tf):**
-- Time for output to transition from 90% to 10% of VDD
-- Measure: Vout from 1.62V to 0.18V
-
-```bash
-# In NGSpice control block:
-meas tran tr TRIG v(out) VAL=0.18 RISE=1 TARG v(out) VAL=1.62 RISE=1
-meas tran tf TRIG v(out) VAL=1.62 FALL=1 TARG v(out) VAL=0.18 FALL=1
-print tr tf
-```
-
-**Typical Values:**
-- tr ≈ 35-40 ps
-- tf ≈ 30-35 ps
-
----
 
 ## Results and Analysis
 
