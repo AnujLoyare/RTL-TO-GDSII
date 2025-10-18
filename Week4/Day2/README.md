@@ -394,7 +394,12 @@ ngspice day2_nfet_idvds_L015_W039.spice
 # Plot results inside ngspice
 plot -vdd#branch
 ```
-
+<div align="center">
+  <img src="images/eight.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/nine.png" alt="Terminal" width="70%">
+</div>
 <div align="center">
   <img src="images/ten.png" alt="Terminal" width="70%">
 </div>
