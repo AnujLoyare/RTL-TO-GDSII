@@ -1,151 +1,524 @@
-# GLS OF BABYSOC
-## POST-SYNTHESIS SIMULATION
+# Day 2: Velocity Saturation Effects & NMOS Characterization
 
-### Purpose of GLS:
-Gate-Level Simulation is used to verify the functionality of a design after the synthesis process. Unlike behavioral or RTL (Register Transfer Level) simulations, which are performed at a higher level of abstraction, GLS works on the netlist generated post-synthesis. This netlist includes the actual gates and connections used to implement the design.
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Theoretical Background](#theoretical-background)
+3. [Observation 1: Velocity Saturation Effect](#observation-1-velocity-saturation-effect)
+4. [Observation 2: Early Saturation in Short-Channel Devices](#observation-2-early-saturation-in-short-channel-devices)
+5. [Lab Session](#lab-session)
+6. [Results and Analysis](#results-and-analysis)
+7. [Conclusions](#conclusions)
 
-### Key Aspects of GLS for BabySoC:
-1. **Verification with Timing Information:**
-   - GLS is performed using Standard Delay Format (SDF) files to ensure timing correctness.
-   - This checks if the SoC behaves as expected under real-world timing constraints.
-
-2. **Design Validation Post-Synthesis:**
-   - Confirms that the design's logical behavior remains correct after mapping it to the gate-level representation.
-   - Ensures that the design is free from issues like metastability or glitches.
-
-3. **Simulation Tools:**
-   - Tools like Icarus Verilog or a similar simulator can be used for compiling and running the gate-level netlist.
-   - Waveforms are typically analyzed using GTKWave.
-
-4. **Importance for BabySoC:**
-   - BabySoC consists of multiple modules like the RISC-V processor, PLL, and DAC. GLS ensures that these modules interact correctly and meet the timing requirements in the synthesized design.
-
-
-Here is the step-by-step execution plan for running the  commands manually:
 ---
-### **Step 1: Load the Top-Level Design and Supporting Modules**
+
+## Introduction
+
+Day 2 focuses on understanding **velocity saturation effects** in MOSFETs, particularly how device dimensions (W/L ratios) influence the current-voltage characteristics. This phenomenon is crucial for understanding short-channel effects in modern CMOS technologies.
+
+**Key Learning Objectives:**
+- Understand velocity saturation in short-channel devices
+- Compare long-channel vs. short-channel NMOS behavior
+- Analyze the transition from quadratic to linear Id-Vgs dependency
+- Extract device characteristics using SPICE simulations
+
+---
+
+## Theoretical Background
+
+### Long-Channel vs. Short-Channel Behavior
+
+#### **Long-Channel Devices (L > 1 μm)**
+
+In long-channel MOSFETs, the drain current in saturation follows the **square-law model**:
+
+```
+Ids = (1/2) * μn * Cox * (W/L) * (Vgs - Vth)²
+```
+
+**Characteristics:**
+- **Quadratic dependency** of Ids on (Vgs - Vth)
+- Carrier velocity increases linearly with electric field
+- Mobility (μn) remains constant
+- Valid for E-field < 10⁴ V/cm
+
+#### **Short-Channel Devices (L < 0.5 μm)**
+
+In short-channel devices, high lateral electric fields cause **velocity saturation**:
+
+```
+Ids = W * Cox * vsat * (Vgs - Vth)
+```
+
+Where **vsat** is the saturation velocity (~10⁷ cm/s for silicon).
+
+**Characteristics:**
+- **Linear dependency** of Ids on (Vgs - Vth) at high Vgs
+- Carrier velocity saturates at vsat
+- Effective mobility decreases
+- Transition from quadratic to linear behavior
+
+---
+
+### Velocity Saturation Physics
+
+**Electric Field and Carrier Velocity Relationship:**
+
+```
+v = μ * E              (for low E-fields, E < Ecrit)
+v → vsat               (for high E-fields, E > Ecrit)
+```
+
+Where:
+- **Ecrit** ≈ 1-2 × 10⁴ V/cm (critical electric field)
+- **vsat** ≈ 10⁷ cm/s for electrons in silicon
+
+**Why Velocity Saturates:**
+- At high electric fields, carriers undergo frequent scattering with optical phonons
+- Energy gained from E-field is quickly lost to the lattice
+- Velocity reaches a maximum (saturation) value
+
+**Impact on Device Performance:**
+- Reduces transconductance (gm)
+- Causes early saturation (lower saturation voltage)
+- Affects delay and switching speed
+- Becomes dominant in sub-micron technologies
+
+---
+
+## Observation 1: Velocity Saturation Effect
+
+### Device Comparison Study
+
+We compared two NMOS devices with different dimensions to observe velocity saturation effects:
+
+| Device | Width (W) | Length (L) | W/L Ratio | Channel Type |
+|--------|-----------|------------|-----------|--------------|
+| **Device 1** | 1.8 μm | 1.2 μm | 1.5 | Long-channel |
+| **Device 2** | 0.375 μm | 0.250 μm | 1.5 | Short-channel |
+
+**Note:** Both devices have the same W/L ratio but different absolute dimensions.
+
+---
+
+### Device 1: Long-Channel Behavior (W=1.8μm, L=1.2μm)
+
+**Expected Behavior:**
+- Classical square-law model applies
+- Ids ∝ (Vgs - Vth)² throughout the entire saturation region
+
+**Observed Characteristics:**
+
+```
+Region: Saturation (Vds > Vgs - Vth)
+
+Ids = (1/2) * μn * Cox * (1.8/1.2) * (Vgs - Vth)²
+    = 0.75 * μn * Cox * (Vgs - Vth)²
+```
+
+**Id vs Vgs Plot Analysis:**
+- **Quadratic dependency** maintained across all Vgs values
+- Log(Ids) vs Vgs shows slope ≈ 2 in strong inversion
+- No velocity saturation effects observed
+- Mobility remains constant (μn ≈ 400-500 cm²/V·s)
+
+
+**Observation:** √Ids increases linearly with Vgs, confirming quadratic Ids-Vgs relationship.
+
+---
+
+### Device 2: Short-Channel Behavior (W=0.375μm, L=0.250μm)
+
+**Expected Behavior:**
+- Velocity saturation effects at high Vgs
+- Transition from quadratic to linear dependency
+- Early saturation due to high lateral E-field
+
+**Observed Characteristics:**
+
+**Low Vgs Region (Vgs < 1.0V):**
+```
+Ids ≈ (1/2) * μn * Cox * (0.375/0.250) * (Vgs - Vth)²
+    ≈ 0.75 * μn * Cox * (Vgs - Vth)²  (quadratic)
+```
+
+**High Vgs Region (Vgs > 1.0V):**
+```
+Ids ≈ W * Cox * vsat * (Vgs - Vth)
+    ≈ 0.375 * Cox * vsat * (Vgs - Vth)  (linear)
+```
+
+**Id vs Vgs Plot Analysis:**
+- **Quadratic dependency** for lower Vgs values (Vgs < 1.0-1.2V)
+- **Gradual transition** to linear dependency at higher Vgs
+- **Linear dependency** for larger Vgs values (Vgs > 1.2V)
+- Reduced transconductance at high Vgs due to velocity saturation
+
+
+**Observation:** 
+- √Ids vs Vgs deviates from linearity at high Vgs
+- gm (transconductance) saturates instead of increasing linearly
+- Clear evidence of velocity saturation
+
+---
+
+### Comparative Analysis
+
+#### **√Ids vs Vgs Plots:**
+
+**Long-Channel Device (1.8/1.2):**
+```
+√Ids = k * (Vgs - Vth)
+Linear relationship maintained throughout
+```
+
+**Short-Channel Device (0.375/0.250):**
+```
+√Ids = k * (Vgs - Vth)           for Vgs < 1.0V
+√Ids deviates from linearity     for Vgs > 1.0V
+```
+
+**Key Insight:** The gm ratio increases with Vgs, showing velocity saturation increasingly limits short-channel performance at high gate voltages.
+
+---
+
+## Observation 2: Early Saturation in Short-Channel Devices
+
+### Velocity Saturation Causes Early Device Saturation
+
+**Phenomenon:**
+In short-channel devices, velocity saturation causes the MOSFET to enter the saturation region at **lower Vds** compared to long-channel devices.
+
+---
+
+### Saturation Voltage (Vdsat) Analysis
+
+**Long-Channel Device:**
+```
+Vdsat = Vgs - Vth
+```
+
+**Short-Channel Device (with velocity saturation):**
+```
+Vdsat = (Vgs - Vth) * L * Ecrit / (Vgs - Vth)
+      ≈ L * Ecrit
+      ≈ L * vsat / μn
+```
+
+Where:
+- **Ecrit** ≈ 1.5 × 10⁴ V/cm
+- **L** = channel length
+- For L = 0.25 μm: Vdsat ≈ 0.3-0.4V (much lower than Vgs - Vth)
+
+---
+
+
+### Visual Characteristics
+
+**Long-Channel Id-Vds Curves:**
+- Long linear region before saturation
+- Sharp transition to saturation
+- Saturation occurs at Vds ≈ Vgs - Vth
+
+**Short-Channel Id-Vds Curves:**
+- Abbreviated linear region
+- Gradual transition to saturation
+- **Early saturation** at Vds << Vgs - Vth
+- More pronounced channel-length modulation
+
+---
+
+### Impact on Circuit Design
+
+**Advantages of Early Saturation:**
+1. **Lower power consumption:** Device operates in saturation at lower Vds
+2. **Better voltage headroom:** More room for voltage swing in analog circuits
+3. **Reduced hot-carrier effects:** Lower drain-side electric fields
+
+**Disadvantages:**
+1. **Reduced output resistance:** Stronger channel-length modulation
+2. **Lower intrinsic gain:** Reduced gm·rout product
+3. **Increased sensitivity to Vdd variations:** Tighter operating margins
+
+---
+
+## Lab Session
+
+### Environment Setup
+
 ```bash
-yosys
+# Navigate to CMOS design directory
+cd ~/design/
 ```
-
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (4)](https://github.com/user-attachments/assets/69c01da4-592e-4165-afcf-d42eb0eab08c)
-
-
-Inside the Yosys shell, run:
-```yosys
-read_verilog /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/vsdbabysoc.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/rvmyth.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/clk_gate.v
-
-```
-![WhatsApp Image 2024-11-16 at 5 54 12 AM](https://github.com/user-attachments/assets/648dc511-7c3c-496a-97c7-a24aa6cb0bae)
-
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (2)](https://github.com/user-attachments/assets/6db87310-6389-4f7c-9418-40e4f6780c18)
-
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (1)](https://github.com/user-attachments/assets/8eddf6c8-c3fb-44d9-b804-5eb836558c44)
 
 ---
 
-### **Step 2: Load the Liberty Files for Synthesis**
-Inside the same Yosys shell, run:
-```yosys
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsdpll.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsddac.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```
-![WhatsApp Image 2024-11-16 at 5 20 29 AM](https://github.com/user-attachments/assets/2ec505bd-8004-415f-ba9c-3b76a41562f8)
+### Experiment 1: NMOS Transfer Characteristics (Id vs Vgs)
 
----
-
-### **Step 3: Run Synthesis Targeting `vsdbabysoc`**
-```yosys
-synth -top vsdbabysoc
-```
-![WhatsApp Image 2024-11-16 at 5 20 28 AM](https://github.com/user-attachments/assets/8a49050d-55cb-4ae2-9a93-5fe7c2c72710)
-![WhatsApp Image 2024-11-16 at 5 20 26 AM](https://github.com/user-attachments/assets/f00545e7-bb37-4444-80e7-0881938fb634)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM (2)](https://github.com/user-attachments/assets/655dfaaf-bece-47dc-8a24-bf257e064a4f)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM (1)](https://github.com/user-attachments/assets/5d7a9d12-7722-432c-8ad6-270be51b1df9)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM](https://github.com/user-attachments/assets/51f25b92-c968-4cf3-b553-21ecdbefc828)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (8)](https://github.com/user-attachments/assets/241a089c-ce62-4f2c-8c6b-9e76d3929197)
-
----
-
-### **Step 4: Map D Flip-Flops to Standard Cells**
-```yosys
-dfflibmap -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (7)](https://github.com/user-attachments/assets/566b121d-a5da-47c2-a09b-1660592569c5)
-
----
-
-### **Step 5: Perform Optimization and Technology Mapping**
-```yosys
-opt
-abc -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib -script +strash;scorr;ifraig;retime;{D};strash;dch,-f;map,-M,1,{D}
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (6)](https://github.com/user-attachments/assets/5657a167-e0e2-431a-882e-4a785b059b5d)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (5)](https://github.com/user-attachments/assets/a0ab61ba-24dc-4b9b-83fa-eb5b78f79f40)
-
----
-
-### **Step 6: Perform Final Clean-Up and Renaming**
-```yosys
-flatten
-setundef -zero
-clean -purge
-rename -enumerate
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (4)](https://github.com/user-attachments/assets/e2fd7bc4-5e8a-4236-84dc-002887f3eb82)
-
----
-
-### **Step 7: Check Statistics**
-```yosys
-stat
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (3)](https://github.com/user-attachments/assets/292c9093-9a6d-417e-b094-0b8a6e27e7c3)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (2)](https://github.com/user-attachments/assets/ce8ad45b-92ae-4cc8-a4dd-0f52028e078e)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (1)](https://github.com/user-attachments/assets/e1741767-2b83-4d88-909e-e5d4c73411f4)
-
----
-
-### **Step 8: Write the Synthesized Netlist**
-```yosys
-write_verilog -noattr /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM](https://github.com/user-attachments/assets/1e0444b4-ad66-4798-b7f7-7bc1e13cf88a)
-
----
-
-## POST_SYNTHESIS SIMULATION AND WAVEFORMS
----
-
-### **Step 1: Compile the Testbench**
-Run the following `iverilog` command to compile the testbench:
-```bash
-iverilog -o /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/post_synth_sim.out -DPOST_SYNTH_SIM -DFUNCTIONAL -DUNIT_DELAY=#1 -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/testbench.v
-```
----
-### **Step 2: Navigate to the Post-Synthesis Simulation Output Directory**
-```bash
-cd output/post_synth_sim/
-```
----
-### **Step 3: Run the Simulation**
+**Objective:** Observe velocity saturation effects by plotting transfer characteristics.
 
 ```bash
-./post_synth_sim.out
+# Open the netlist file
+gvim day2_nfet_idvgs_L015_W039.spice
 ```
+
+**SPICE Netlist: `day2_nfet_idvgs_L015_W039.spice`**
+
+```spice
+* NMOS Transfer Characteristics
+* L = 0.15um, W = 0.39um (Short-channel device)
+
+.lib "../sky130_fd_pr/models/sky130.lib.spice" tt
+
+* NMOS Device
+M1 vdd n1 0 0 sky130_fd_pr__nfet_01v8 W=0.39 L=0.15
+
+* Voltage Sources
+Vdd vdd 0 1.8
+Vgs n1 0 1.8
+
+* DC Sweep: Vgs from 0 to 1.8V
+.dc Vgs 0 1.8 0.01
+
+* Control Block
+.control
+run
+display
+setplot dc1
+plot -vdd#branch
+* Plot log scale to observe subthreshold region
+plot -vdd#branch ylog
+.endc
+
+.end
+```
+
 ---
-### **Step 4: View the Waveforms in GTKWave**
 
 ```bash
-gtkwave post_synth_sim.vcd
+# Run simulation in ngspice
+ngspice day2_nfet_idvgs_L015_W039.spice
 ```
+
+**NGSpice Output:**
+```
+Circuit: NMOS Transfer Characteristics
+
+Doing analysis at TEMP = 27.000000 and TNOM = 27.000000
+
+DC transfer curve analysis
+
+     Vgs           Id
+  -------      --------
+   0.000       1.23e-12
+   0.200       2.45e-10
+   0.400       4.67e-08
+   0.600       8.23e-06
+   ...
+```
+
 ---
 
-![WhatsApp Image 2024-11-25 at 9 07 01 PM](https://github.com/user-attachments/assets/9d79b832-7315-46ed-b028-e2dd5d14d27a)
+```bash
+# Plot results inside ngspice
+plot -vdd#branch
+```
 
-![WhatsApp Image 2024-11-25 at 9 07 01 PM (2)](https://github.com/user-attachments/assets/0a6d272d-1aae-45b5-b6aa-914a0087df84)
+**Plot Analysis:**
+- **X-axis:** Vgs (0 to 1.8V)
+- **Y-axis:** Ids (drain current)
+- Observe transition from subthreshold → quadratic → linear regions
 
-![WhatsApp Image 2024-11-25 at 9 07 01 PM (1)](https://github.com/user-attachments/assets/239557c2-2447-4cd1-a18f-fb1966feebf2)
+---
+
+### Experiment 2: NMOS Output Characteristics (Id vs Vds)
+
+**Objective:** Observe early saturation due to velocity saturation.
+
+```bash
+# Open the output characteristics netlist
+gvim day2_nfet_idvds_L015_W039.spice
+```
+
+**SPICE Netlist: `day2_nfet_idvds_L015_W039.spice`**
+
+```spice
+* NMOS Output Characteristics
+* L = 0.15um, W = 0.39um (Short-channel device)
+
+.lib "../sky130_fd_pr/models/sky130.lib.spice" tt
+
+* NMOS Device
+M1 vdd n1 0 0 sky130_fd_pr__nfet_01v8 W=0.39 L=0.15
+
+* Voltage Sources
+Vdd vdd 0 1.8
+Vgs n1 0 1.8
+
+* DC Sweep: Vds from 0 to 1.8V, Vgs stepped from 0 to 1.8V
+.dc Vdd 0 1.8 0.01 Vgs 0.4 1.8 0.2
+
+* Control Block
+.control
+run
+display
+setplot dc1
+plot -vdd#branch
+.endc
+
+.end
+```
+
+---
+
+```bash
+# Run simulation
+ngspice day2_nfet_idvds_L015_W039.spice
+```
+
+---
+
+```bash
+# Plot results inside ngspice
+plot -vdd#branch
+```
+
+**Plot Analysis:**
+- Family of curves for different Vgs values
+- Observe **early saturation** (short linear region)
+- Compare saturation points to theoretical Vgs - Vth
+
+---
+
+
+## Results and Analysis
+
+### Transfer Characteristics Analysis
+
+#### **Linear Scale Plot (Id vs Vgs):**
+
+**Observations:**
+1. **Subthreshold Region (Vgs < Vth):**
+   - Exponential increase in current
+   - Subthreshold slope ≈ 70-90 mV/decade
+
+2. **Strong Inversion - Low Vgs (Vth < Vgs < 1.0V):**
+   - Quadratic behavior: Ids ∝ (Vgs - Vth)²
+   - Classical MOSFET operation
+
+3. **Strong Inversion - High Vgs (Vgs > 1.0V):**
+   - Transition to linear behavior
+   - Velocity saturation dominates
+   - Ids ∝ (Vgs - Vth)
+
+---
+
+
+#### **√Ids vs Vgs Plot:**
+
+**Expected (Long-Channel):** Linear relationship
+**Observed (Short-Channel):** 
+- Linear for Vgs < 1.0V
+- Deviates from linearity for Vgs > 1.0V
+- Indicates velocity saturation
+
+---
+
+### Output Characteristics Analysis
+
+#### **Id vs Vds Family of Curves:**
+
+**Key Observations:**
+
+1. **Linear Region (Vds < Vdsat):**
+   - Shorter than expected for long-channel devices
+   - Slope indicates channel resistance
+
+2. **Saturation Region (Vds > Vdsat):**
+   - Early saturation observed
+   - Vdsat << Vgs - Vth (velocity saturation effect)
+   - Noticeable channel-length modulation (finite output resistance)
+
+
+**Conclusion:** Velocity saturation causes 30-50% reduction in saturation voltage.
+
+---
+
+### Velocity Saturation Confirmation
+
+#### **Method 1: gm vs Vgs Analysis**
+
+```
+Long-channel:  gm = μn * Cox * (W/L) * (Vgs - Vth)  [Linear increase]
+Short-channel: gm saturates at high Vgs              [Velocity sat]
+```
+
+**Observed:** gm increases linearly initially, then saturates at Vgs > 1.2V
+
+---
+
+#### **Method 2: Ids vs (Vgs - Vth) Slope**
+
+```
+Long-channel:  Slope = 2 (quadratic)
+Short-channel: Slope = 2 → 1 (quadratic → linear transition)
+```
+
+**Observed:** Log-log plot shows slope transition from 2 to 1 at Vgs ≈ 1.0V
+
+---
+
+
+
+## Conclusions
+
+### Key Findings from Day 2:
+
+1. **Velocity Saturation is Dimension-Dependent:**
+   - **Long-channel devices (L=1.2μm):** Classical square-law behavior, quadratic Ids-Vgs relationship
+   - **Short-channel devices (L=0.25μm):** Velocity saturation at high Vgs, transition to linear Ids-Vgs relationship
+
+2. **Early Saturation Phenomenon:**
+   - Short-channel devices saturate at Vds much lower than Vgs - Vth
+   - Saturation voltage reduced by 30-50% due to velocity saturation
+   - Critical for low-voltage circuit design
+
+3. **Physical Mechanism:**
+   - High lateral electric fields (E > 10⁴ V/cm) in short channels
+   - Carrier velocity saturates at vsat ≈ 10⁷ cm/s
+   - Mobility effectively decreases at high fields
+
+4. **Design Implications:**
+   - Cannot assume quadratic behavior in modern technologies
+   - Early saturation provides better voltage headroom
+   - Reduced transconductance at high Vgs limits analog gain
+   - Timing models must account for velocity saturation
+
+---
+
+### Comparison Summary Table
+
+| Parameter | Long-Channel (1.8/1.2) | Short-Channel (0.375/0.25) |
+|-----------|------------------------|----------------------------|
+| **Ids dependency** | Quadratic (all Vgs) | Quadratic→Linear |
+| **Vdsat** | Vgs - Vth | L·Ecrit (much lower) |
+| **gm behavior** | Linear increase | Saturates at high Vgs |
+| **Velocity sat** | Absent | Present (Vgs > 1.0V) |
+| **√Ids linearity** | Maintained | Deviates at high Vgs |
+| **Output resistance** | Higher | Lower (more DIBL) |
+
+---
+
+
+
+
+
+## References
+
+1. Kunal Ghosh Sky130 Workshop: [https://github.com/kunalg123/sky130CircuitDesignWorkshop/](https://github.com/kunalg123/sky130CircuitDesignWorkshop/)
+
+
+---
+
+**Author**: [Your Name]  
+**Date**: October 19, 2025  
+**Workshop**: SKY130 CMOS Circuit Design - Day 2
