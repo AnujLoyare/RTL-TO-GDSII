@@ -149,6 +149,16 @@ plot out vs in
 
 ---
 
+<div align="center">
+  <img src="Images/one.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/two.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/three.png" alt="Terminal" width="70%">
+</div>
+
 ## Conclusions
 
 ### Key Findings from Day 4:
