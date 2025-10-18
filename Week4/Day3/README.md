@@ -152,9 +152,6 @@ Idsn = (1/2)·μn·Cox·(Wn/Ln)·(Vin - VTn)²·(1 + λn·Vout)
 
 ---
 
-
-```
-
 **Observations:**
 - Higher Vin → Higher current
 - Each curve shows linear → saturation transition
