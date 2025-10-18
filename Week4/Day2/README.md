@@ -87,6 +87,10 @@ Where:
 
 ## Observation 1: Velocity Saturation Effect
 
+<div align="center">
+  <img src="images/velocity_sat_effect.png" alt="Terminal" width="70%">
+</div>
+
 ### Device Comparison Study
 
 We compared two NMOS devices with different dimensions to observe velocity saturation effects:
@@ -160,7 +164,15 @@ Ids ≈ W * Cox * vsat * (Vgs - Vth)
 - Clear evidence of velocity saturation
 
 ---
-
+<div align="center">
+  <img src="images/obs_1.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/obs_1_2.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/obs_1_3.png" alt="Terminal" width="70%">
+</div>
 
 ### Comparative Analysis
 
@@ -383,11 +395,18 @@ ngspice day2_nfet_idvds_L015_W039.spice
 plot -vdd#branch
 ```
 
-**Plot Analysis:**
-- Family of curves for different Vgs values
-- Observe **early saturation** (short linear region)
-- Compare saturation points to theoretical Vgs - Vth
-
+<div align="center">
+  <img src="images/ten.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/eleven.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/twelve.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/thirteen.png" alt="Terminal" width="70%">
+</div>
 ---
 
 
