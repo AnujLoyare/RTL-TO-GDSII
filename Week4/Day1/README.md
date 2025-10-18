@@ -24,9 +24,13 @@ This workshop explores the physical characteristics of MOSFETs using the **SKY13
 
 ## Delay Table Analysis
 
-### Three Buffer Chain Circuit
+### Level 2 Buffer Circuit
 
-In digital circuits, buffers are commonly used to drive large capacitive loads. We analyzed a **3-buffer chain** to understand:
+<div align="center">
+  <img src="images/buffer_image_day1.png" alt="Terminal" width="70%">
+</div>
+
+In digital circuits, buffers are commonly used to drive large capacitive loads. We analyzed a **2 level-buffer chain** to understand:
 
 - **Delay propagation** through cascaded stages
 - **Input-to-output timing relationships**
@@ -38,13 +42,9 @@ In digital circuits, buffers are commonly used to drive large capacitive loads. 
 - Each buffer stage contributes to total propagation delay
 - Non-linear relationship between input slew and output delay
 
-| Buffer Stage | Input Slew (ps) | Output Load (fF) | Propagation Delay (ps) |
-|--------------|----------------|------------------|------------------------|
-| Buffer 1     | 50             | 10               | 45                     |
-| Buffer 2     | 80             | 15               | 62                     |
-| Buffer 3     | 95             | 20               | 78                     |
-
-*Note: Values are representative for illustration purposes*
+<div align="center">
+  <img src="images/delay_table_buf1&2_day1.png" alt="Terminal" width="70%">
+</div>
 
 ---
 
@@ -59,16 +59,9 @@ An NMOS transistor has **four terminals**:
 3. **Source (S)**: Carrier injection terminal
 4. **Body/Bulk (B)**: Substrate connection (typically tied to ground for NMOS)
 
-```
-         Gate (G)
-            |
-    ________|________
-   |                 |
-Source (S)      Drain (D)
-   |_________________|
-            |
-         Body (B)
-```
+<div align="center">
+  <img src="images/nmos_day1.png" alt="Terminal" width="70%">
+</div>
 
 ---
 
@@ -78,7 +71,7 @@ Source (S)      Drain (D)
 
 **Formula:**
 ```
-Vth = Vth0 + γ(√|2φF + Vsb| - √|2φF|)
+Vth = Vth0 + γ(√|1-2φF + Vsb| - √|1-2φF|)
 ```
 
 Where:
@@ -91,6 +84,14 @@ Where:
 - When Vsb ≠ 0, the threshold voltage increases
 - Important in series-connected transistors
 - Affects circuit speed and noise margins
+- 
+<div align="center">
+  <img src="images/Body_Source_voltage.png" alt="Terminal" width="70%">
+</div>
+
+<div align="center">
+  <img src="images/bady_source_voltage2.png" alt="Terminal" width="70%">
+</div>
 
 ---
 
@@ -102,6 +103,10 @@ Where:
 - Transistor is OFF
 
 #### 2. **Resistive/Linear/Triode Region** (Vgs > Vth and Vds < Vgs - Vth)
+
+<div align="center">
+  <img src="images/resistive_operation.png" alt="Terminal" width="70%">
+</div>
 
 **Current Components:**
 
@@ -124,8 +129,15 @@ The transistor acts as a **voltage-controlled resistor** in this region:
 ```
 Rds ≈ 1 / [μn * Cox * (W/L) * (Vgs - Vth)]
 ```
+<div align="center">
+  <img src="images/drift_diffusion_current.png" alt="Terminal" width="70%">
+</div>
 
 #### 3. **Saturation Region** (Vgs > Vth and Vds ≥ Vgs - Vth)
+
+<div align="center">
+  <img src="images/saturation.png" alt="Terminal" width="70%">
+</div>
 
 **Characteristics:**
 - Channel pinches off at drain end
@@ -174,6 +186,10 @@ The **SKY130 PDK** provides detailed SPICE models for different corners and devi
 - `sky130.lib.spice`: Master library file with corner definitions
 
 **Key Parameters in SKY130 Models:**
+
+<div align="center">
+  <img src="images/spice_parameter.png" alt="Terminal" width="70%">
+</div>
 
 | Parameter | Description | Typical Value |
 |-----------|-------------|---------------|
@@ -379,38 +395,28 @@ plot -vdd#branch
 - Multiple curves for different Vgs values
 
 ---
+<div align="center">
+  <img src="images/one.png" alt="Terminal" width="70%">
+</div>
 
-## Results and Observations
-
-### Id vs Vds Characteristics
-
-**Observed Curves:**
-
-For **Vgs = 0.4V, 0.6V, 0.8V, 1.0V, 1.2V, 1.4V, 1.6V, 1.8V**:
-
-1. **Linear Region** (Vds < Vgs - Vth):
-   - Current increases approximately linearly with Vds
-   - Slope indicates channel resistance
-   - Higher Vgs → lower resistance → steeper slope
-
-2. **Saturation Region** (Vds ≥ Vgs - Vth):
-   - Current saturates (becomes relatively constant)
-   - Slight increase due to channel length modulation (λ)
-   - Saturation current increases with Vgs
-
-**Key Measurements:**
-
-| Vgs (V) | Vth (V) | Ids_sat (μA) | gm (μS) |
-|---------|---------|--------------|---------|
-| 0.6     | ~0.42   | ~8           | ~35     |
-| 0.8     | ~0.42   | ~28          | ~75     |
-| 1.0     | ~0.42   | ~55          | ~115    |
-| 1.2     | ~0.42   | ~90          | ~155    |
-| 1.4     | ~0.42   | ~130         | ~195    |
-| 1.6     | ~0.42   | ~175         | ~235    |
-| 1.8     | ~0.42   | ~225         | ~275    |
-
----
+<div align="center">
+  <img src="images/two.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/three.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/four.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/five.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/six.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="images/seven.png" alt="Terminal" width="70%">
+</div>
 
 ### Connection to STA Concepts
 
@@ -462,14 +468,7 @@ For **Vgs = 0.4V, 0.6V, 0.8V, 1.0V, 1.2V, 1.4V, 1.6V, 1.8V**:
    - Variation at device level propagates to timing uncertainty
    - Understanding physics helps debug timing violations
 
-### Next Steps:
 
-- **Day 2**: Threshold voltage extraction and velocity saturation analysis
-- **Day 3**: CMOS inverter VTC and switching characteristics
-- **Day 4**: Transient analysis and propagation delay extraction
-- **Day 5**: Noise margin analysis and variation studies
-
----
 
 ## References
 
@@ -479,6 +478,6 @@ grated Circuits", McGraw-Hill
 
 ---
 
-**Author**: [Your Name]  
+**Author**: [Anuj Loyare]  
 **Date**: October 19, 2025  
 **Workshop**: SKY130 CMOS Circuit Design & SPICE Simulation
