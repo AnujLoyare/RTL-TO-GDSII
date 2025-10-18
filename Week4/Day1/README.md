@@ -1,7 +1,7 @@
-# Day 1: CMOS Circuit Design & SPICE Simulation
+# Day 1: Circuit Design & SPICE Simulation
 
 ## Table of Contents
-1. [Introduction to CMOS Design](#introduction-to-cmos-design)
+1. [Introduction to Circuit Design](#introduction-to-circuit-design)
 2. [Delay Table Analysis](#delay-table-analysis)
 3. [NMOS Fundamentals](#nmos-fundamentals)
 4. [SPICE Simulation Basics](#spice-simulation-basics)
@@ -10,8 +10,8 @@
 
 ---
 
-## Introduction to CMOS Design
-
+## Introduction to Circuit Design
+## CMOS
 CMOS (Complementary Metal-Oxide-Semiconductor) technology forms the backbone of modern digital integrated circuits. Understanding transistor-level behavior is crucial for:
 - Accurate timing analysis in STA (Static Timing Analysis)
 - Predicting circuit delay and performance
