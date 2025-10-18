@@ -310,71 +310,6 @@ print out            * Print output values
 .end
 ```
 
-**Key Components:**
-
-1. **M1 (PMOS):**
-   - Drain: `out`, Gate: `in`, Source: `vdd`, Bulk: `vdd`
-   - Width: 0.84μm, Length: 0.15μm
-   - Note: PMOS bulk tied to VDD to avoid body effect
-
-2. **M2 (NMOS):**
-   - Drain: `out`, Gate: `in`, Source: `0` (GND), Bulk: `0`
-   - Width: 0.36μm, Length: 0.15μm
-   - Note: NMOS bulk tied to GND
-
-3. **Device Sizing:**
-   - Wp/Wn ratio ≈ 2.33 (to compensate for lower hole mobility)
-   - Typical ratio: μn/μp ≈ 2-3, so Wp ≈ (2-3)·Wn
-
----
-
-### Example SPICE Deck: Transient Analysis
-
-```spice
-* CMOS Inverter - Transient Analysis
-* Wp = 0.84um, Wn = 0.36um
-
-*--- Library Inclusion ---
-.lib "../sky130_fd_pr/models/sky130.lib.spice" tt
-
-*--- Circuit Description ---
-M1 out in vdd vdd sky130_fd_pr__pfet_01v8 W=0.84 L=0.15
-M2 out in 0 0 sky130_fd_pr__nfet_01v8 W=0.36 L=0.15
-
-*--- Voltage Sources ---
-Vdd vdd 0 1.8
-
-* Pulse Input: V1 V2 Tdelay Trise Tfall Ton Tperiod
-Vin in 0 PULSE(0 1.8 0 10p 10p 1n 2n)
-
-*--- Load Capacitance ---
-Cout out 0 10f
-
-*--- Transient Analysis ---
-.tran 10p 4n         * Time step: 10ps, Stop time: 4ns
-
-*--- Control Block ---
-.control
-run
-plot in out          * Plot input and output waveforms
-* Measure propagation delays
-meas tran tpdr TRIG v(in) VAL=0.9 RISE=1 TARG v(out) VAL=0.9 FALL=1
-meas tran tpdf TRIG v(in) VAL=0.9 FALL=1 TARG v(out) VAL=0.9 RISE=1
-print tpdr tpdf      * Print delay values
-.endc
-
-.end
-```
-
-**Pulse Parameters:**
-- V1 = 0V (LOW level)
-- V2 = 1.8V (HIGH level)
-- Tdelay = 0ns (start immediately)
-- Trise/Tfall = 10ps (transition time)
-- Ton = 1ns (pulse width)
-- Tperiod = 2ns (period)
-
----
 
 ## Lab Session
 
@@ -473,59 +408,11 @@ plot out vs in
 # Open transient simulation netlist
 gvim day3_inv_tran_wp084_wn036.spice
 ```
-
-**Netlist Contents:**
-
-```spice
-* CMOS Inverter Transient Analysis
-* PMOS: W=0.84um, NMOS: W=0.36um
-
-.lib "../sky130_fd_pr/models/sky130.lib.spice" tt
-
-* Circuit
-M1 out in vdd vdd sky130_fd_pr__pfet_01v8 W=0.84 L=0.15
-M2 out in 0 0 sky130_fd_pr__nfet_01v8 W=0.36 L=0.15
-
-* Sources
-Vdd vdd 0 1.8
-Vin in 0 PULSE(0 1.8 0 10p 10p 1n 2n)
-
-* Load
-Cout out 0 10f
-
-* Transient Analysis
-.tran 10p 4n
-
-* Control
-.control
-run
-plot in out
-* Measure delays at 50% points (0.9V for 1.8V supply)
-meas tran tpdr TRIG v(in) VAL=0.9 RISE=1 TARG v(out) VAL=0.9 FALL=1
-meas tran tpdf TRIG v(in) VAL=0.9 FALL=1 TARG v(out) VAL=0.9 RISE=1
-let tpd_avg = (tpdr + tpdf)/2
-print tpdr tpdf tpd_avg
-.endc
-
-.end
-```
-
 ---
 
 ```bash
 # Run transient simulation
 ngspice day3_inv_tran_wp084_wn036.spice
-```
-
-**NGSpice Output:**
-```
-Circuit: CMOS Inverter Transient Analysis
-
-Transient analysis
-
-tpdr = 4.523e-11  (45.23 ps)  ← Rise propagation delay
-tpdf = 3.876e-11  (38.76 ps)  ← Fall propagation delay
-tpd_avg = 4.200e-11 (42.0 ps) ← Average delay
 ```
 
 ---
@@ -544,16 +431,16 @@ Inside NGSpice plot window:
 **Rise Delay (tpdr):**
 - Measure when Vin crosses 0.9V going UP
 - Measure when Vout crosses 0.9V going DOWN
-- tpdr = time difference ≈ 45 ps
+- tpdr = time difference 
 
 **Fall Delay (tpdf):**
 - Measure when Vin crosses 0.9V going DOWN
 - Measure when Vout crosses 0.9V going UP
-- tpdf = time difference ≈ 39 ps
+- tpdf = time difference 
 
 **Average Propagation Delay:**
 ```
-tpd = (tpdr + tpdf) / 2 ≈ 42 ps
+tpd = (tpdr + tpdf) / 2 
 ```
 <div align="center">
   <img src="Images/one.png" alt="Terminal" width="70%">
@@ -582,13 +469,13 @@ tpd = (tpdr + tpdf) / 2 ≈ 42 ps
        VDD (1.8V)
          │
     ┌────┴────┐
-    │   NMH   │ 0.68V
-    ├─────────┤ VIH = 1.10V
+    │   NMH   │ 
+    ├─────────┤ VIH 
     │         │
     │ Unknown │
     │         │
-    ├─────────┤ VIL = 0.85V
-    │   NML   │ 0.83V
+    ├─────────┤ VIL 
+    │   NML   │ 
     └────┬────┘
         GND (0V)
 ```
