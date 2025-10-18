@@ -519,6 +519,6 @@ Short-channel: Slope = 2 → 1 (quadratic → linear transition)
 
 ---
 
-**Author**: [Your Name]  
+**Author**: [Anuj Loyare]  
 **Date**: October 19, 2025  
-**Workshop**: SKY130 CMOS Circuit Design - Day 2
+**Workshop**: SKY130 Circuit Design - Day 2
