@@ -166,6 +166,21 @@ ngspice day5_inv_supplyvariation_wp1_wn0.36.spice
 ```
 
 ---
+<div align="center">
+  <img src="Images/one.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/two.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/three.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/four.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/five.png" alt="Terminal" width="70%">
+</div>
 
 ## Conclusions
 
