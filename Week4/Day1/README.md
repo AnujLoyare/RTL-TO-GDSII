@@ -191,14 +191,6 @@ The **SKY130 PDK** provides detailed SPICE models for different corners and devi
   <img src="images/spice_parameter.png" alt="Terminal" width="70%">
 </div>
 
-| Parameter | Description | Typical Value |
-|-----------|-------------|---------------|
-| **VTH0** | Threshold voltage | 0.4 - 0.6 V |
-| **U0** | Low-field mobility | 400 - 600 cm²/V·s |
-| **TOX** | Gate oxide thickness | 4 - 5 nm |
-| **XJ** | Junction depth | 150 - 200 nm |
-| **VSAT** | Saturation velocity | 8 - 10 × 10⁴ m/s |
-| **LINT/WINT** | Length/width offset | Device-specific |
 
 **Process Corners:**
 - **TT** (Typical-Typical): Nominal process
@@ -474,7 +466,6 @@ plot -vdd#branch
 
 1. SKY130 PDK Documentation: [https://github.com/google/skywater-pdk](https://github.com/google/skywater-pdk)
 2. Kunal Ghosh Sky130 Workshop: [https://github.com/kunalg123/sky130CircuitDesignWorkshop/](https://github.com/kunalg123/sky130CircuitDesignWorkshop/)
-grated Circuits", McGraw-Hill
 
 ---
 
