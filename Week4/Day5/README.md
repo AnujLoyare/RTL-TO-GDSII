@@ -1,151 +1,230 @@
-# GLS OF BABYSOC
-## POST-SYNTHESIS SIMULATION
+# Day 5: Static Behavior Evaluation - Power Supply Scaling
 
-### Purpose of GLS:
-Gate-Level Simulation is used to verify the functionality of a design after the synthesis process. Unlike behavioral or RTL (Register Transfer Level) simulations, which are performed at a higher level of abstraction, GLS works on the netlist generated post-synthesis. This netlist includes the actual gates and connections used to implement the design.
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Power Supply Scaling](#power-supply-scaling)
+3. [Lab Session](#lab-session)
+4. [Conclusions](#conclusions)
 
-### Key Aspects of GLS for BabySoC:
-1. **Verification with Timing Information:**
-   - GLS is performed using Standard Delay Format (SDF) files to ensure timing correctness.
-   - This checks if the SoC behaves as expected under real-world timing constraints.
-
-2. **Design Validation Post-Synthesis:**
-   - Confirms that the design's logical behavior remains correct after mapping it to the gate-level representation.
-   - Ensures that the design is free from issues like metastability or glitches.
-
-3. **Simulation Tools:**
-   - Tools like Icarus Verilog or a similar simulator can be used for compiling and running the gate-level netlist.
-   - Waveforms are typically analyzed using GTKWave.
-
-4. **Importance for BabySoC:**
-   - BabySoC consists of multiple modules like the RISC-V processor, PLL, and DAC. GLS ensures that these modules interact correctly and meet the timing requirements in the synthesized design.
-
-
-Here is the step-by-step execution plan for running the  commands manually:
 ---
-### **Step 1: Load the Top-Level Design and Supporting Modules**
+
+## Introduction
+
+Day 5 focuses on **power supply scaling** and its impact on CMOS inverter robustness. We analyze how varying VDD affects:
+- Voltage Transfer Characteristic (VTC)
+- Switching behavior
+- Gain
+- Energy consumption
+- Performance
+
+---
+
+## Power Supply Scaling
+
+### 3. Power Supply Scaling
+
+Power supply voltage (VDD) is a critical parameter that affects all aspects of CMOS inverter operation.
+
+---
+
+### VTC for Different Power Supplies
+
+We analyze Vin vs Vout characteristics for different supply voltages to understand the impact of voltage scaling.
+
+**Supply Voltages Analyzed:**
+- VDD = 1.8V (nominal)
+- VDD = 1.2V (reduced)
+- VDD = 0.8V (low power)
+- VDD = 0.5V (ultra-low power)
+
+**Observations:**
+- Lower VDD reduces voltage swing
+- Switching threshold (Vm) scales proportionally
+- VTC slope changes with supply voltage
+- Noise margins are affected
+
+---
+
+### Advantages of Using 0.5V Supply
+
+#### **1. Increase in Gain**
+
+**Observation:**
+At lower supply voltages, the VTC curve exhibits **higher gain** (steeper slope) in the transition region.
+
+**Reason:**
+- Reduced VDD brings transistors closer to subthreshold region
+- Enhanced sensitivity to input voltage changes
+- Sharper transition between logic levels
+
+**Benefit:**
+- Better noise rejection
+- Improved switching characteristics
+- Enhanced signal integrity
+
+---
+
+#### **2. Significant Reduction in Energy**
+
+**Energy Consumption:**
+Dynamic energy per switching event is given by:
+```
+E = CL × VDD²
+```
+
+**Energy Comparison:**
+
+| VDD | Relative Energy | Energy Reduction |
+|-----|-----------------|------------------|
+| 1.8V | 1.00× | Baseline |
+| 1.2V | 0.44× | 56% reduction |
+| 0.8V | 0.20× | 80% reduction |
+| 0.5V | 0.08× | **92% reduction** |
+
+**Key Insight:**
+Reducing supply voltage from 1.8V to 0.5V provides approximately **92% energy savings** - a significant reduction!
+
+**Benefits:**
+- Lower power consumption
+- Reduced heat dissipation
+- Extended battery life in portable devices
+- Improved energy efficiency
+- Better thermal management
+
+---
+
+### Disadvantages of Using 0.5V Supply
+
+#### **Performance Impact**
+
+**Observation:**
+Lower supply voltage significantly degrades circuit speed and performance.
+
+**Issues:**
+
+1. **Increased Propagation Delay:**
+   - Lower VDD reduces overdrive voltage (Vgs - Vth)
+   - Reduced current drive capability
+   - Slower charging/discharging of load capacitance
+   - Delay increases by 5-10× at 0.5V compared to 1.8V
+
+2. **Reduced Noise Margins:**
+   - Smaller voltage swing reduces absolute noise margins
+   - NM scales with VDD
+   - Increased susceptibility to noise and variations
+
+3. **Threshold Voltage Concerns:**
+   - At 0.5V, close to threshold voltage (Vth ≈ 0.4V)
+   - Limited overdrive voltage
+   - Increased sensitivity to Vth variations
+   - Subthreshold leakage becomes significant
+
+4. **Process Variation Sensitivity:**
+   - Lower VDD magnifies impact of process variations
+   - Reduced operating margins
+   - Potential functionality issues at corners
+
+**Trade-off:**
+- Energy savings vs. Performance
+- Must balance power requirements with speed requirements
+- Application-specific optimization needed
+
+---
+
+## Lab Session
+
+### Experiment: Supply Voltage Variation Analysis
+
+**Objective:** 
+Analyze the impact of power supply scaling on CMOS inverter VTC, gain, and robustness.
+
+---
+
+### Step 1: Navigate to Design Directory
+
 ```bash
-yosys
+# 1. Change to your circuit design directory
+cd ~/sky130_circuit_design_workshop/design
 ```
-
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (4)](https://github.com/user-attachments/assets/69c01da4-592e-4165-afcf-d42eb0eab08c)
-
-
-Inside the Yosys shell, run:
-```yosys
-read_verilog /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/vsdbabysoc.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/rvmyth.v
-read_verilog -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include /home/ananya123/VSDBabySoCC/src/module/clk_gate.v
-
-```
-![WhatsApp Image 2024-11-16 at 5 54 12 AM](https://github.com/user-attachments/assets/648dc511-7c3c-496a-97c7-a24aa6cb0bae)
-
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (2)](https://github.com/user-attachments/assets/6db87310-6389-4f7c-9418-40e4f6780c18)
-
-![WhatsApp Image 2024-11-16 at 5 20 29 AM (1)](https://github.com/user-attachments/assets/8eddf6c8-c3fb-44d9-b804-5eb836558c44)
 
 ---
 
-### **Step 2: Load the Liberty Files for Synthesis**
-Inside the same Yosys shell, run:
-```yosys
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsdpll.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/avsddac.lib
-read_liberty -lib /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```
-![WhatsApp Image 2024-11-16 at 5 20 29 AM](https://github.com/user-attachments/assets/2ec505bd-8004-415f-ba9c-3b76a41562f8)
-
----
-
-### **Step 3: Run Synthesis Targeting `vsdbabysoc`**
-```yosys
-synth -top vsdbabysoc
-```
-![WhatsApp Image 2024-11-16 at 5 20 28 AM](https://github.com/user-attachments/assets/8a49050d-55cb-4ae2-9a93-5fe7c2c72710)
-![WhatsApp Image 2024-11-16 at 5 20 26 AM](https://github.com/user-attachments/assets/f00545e7-bb37-4444-80e7-0881938fb634)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM (2)](https://github.com/user-attachments/assets/655dfaaf-bece-47dc-8a24-bf257e064a4f)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM (1)](https://github.com/user-attachments/assets/5d7a9d12-7722-432c-8ad6-270be51b1df9)
-![WhatsApp Image 2024-11-16 at 5 20 24 AM](https://github.com/user-attachments/assets/51f25b92-c968-4cf3-b553-21ecdbefc828)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (8)](https://github.com/user-attachments/assets/241a089c-ce62-4f2c-8c6b-9e76d3929197)
-
----
-
-### **Step 4: Map D Flip-Flops to Standard Cells**
-```yosys
-dfflibmap -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (7)](https://github.com/user-attachments/assets/566b121d-a5da-47c2-a09b-1660592569c5)
-
----
-
-### **Step 5: Perform Optimization and Technology Mapping**
-```yosys
-opt
-abc -liberty /home/ananya123/VSDBabySoCC/VSDBabySoC/src/lib/sky130_fd_sc_hd__tt_025C_1v80.lib -script +strash;scorr;ifraig;retime;{D};strash;dch,-f;map,-M,1,{D}
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (6)](https://github.com/user-attachments/assets/5657a167-e0e2-431a-882e-4a785b059b5d)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (5)](https://github.com/user-attachments/assets/a0ab61ba-24dc-4b9b-83fa-eb5b78f79f40)
-
----
-
-### **Step 6: Perform Final Clean-Up and Renaming**
-```yosys
-flatten
-setundef -zero
-clean -purge
-rename -enumerate
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (4)](https://github.com/user-attachments/assets/e2fd7bc4-5e8a-4236-84dc-002887f3eb82)
-
----
-
-### **Step 7: Check Statistics**
-```yosys
-stat
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (3)](https://github.com/user-attachments/assets/292c9093-9a6d-417e-b094-0b8a6e27e7c3)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (2)](https://github.com/user-attachments/assets/ce8ad45b-92ae-4cc8-a4dd-0f52028e078e)
-![WhatsApp Image 2024-11-16 at 5 20 23 AM (1)](https://github.com/user-attachments/assets/e1741767-2b83-4d88-909e-e5d4c73411f4)
-
----
-
-### **Step 8: Write the Synthesized Netlist**
-```yosys
-write_verilog -noattr /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v
-```
-![WhatsApp Image 2024-11-16 at 5 20 23 AM](https://github.com/user-attachments/assets/1e0444b4-ad66-4798-b7f7-7bc1e13cf88a)
-
----
-
-## POST_SYNTHESIS SIMULATION AND WAVEFORMS
----
-
-### **Step 1: Compile the Testbench**
-Run the following `iverilog` command to compile the testbench:
-```bash
-iverilog -o /home/ananya123/VSDBabySoCC/VSDBabySoC/output/post_synth_sim/post_synth_sim.out -DPOST_SYNTH_SIM -DFUNCTIONAL -DUNIT_DELAY=#1 -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/include -I /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module /home/ananya123/VSDBabySoCC/VSDBabySoC/src/module/testbench.v
-```
----
-### **Step 2: Navigate to the Post-Synthesis Simulation Output Directory**
-```bash
-cd output/post_synth_sim/
-```
----
-### **Step 3: Run the Simulation**
+### Step 2: Open Netlist
 
 ```bash
-./post_synth_sim.out
+# 2. Open the SPICE netlist file in the gvim editor
+gvim day5_inv_supplyvariation_wp1_wn0.36.spice
 ```
+
 ---
-### **Step 4: View the Waveforms in GTKWave**
+
+### Step 3: Run Simulation
 
 ```bash
-gtkwave post_synth_sim.vcd
+# 3. Run the simulation using ngspice
+ngspice day5_inv_supplyvariation_wp1_wn0.36.spice
 ```
+
 ---
 
-![WhatsApp Image 2024-11-25 at 9 07 01 PM](https://github.com/user-attachments/assets/9d79b832-7315-46ed-b028-e2dd5d14d27a)
+## Conclusions
 
-![WhatsApp Image 2024-11-25 at 9 07 01 PM (2)](https://github.com/user-attachments/assets/0a6d272d-1aae-45b5-b6aa-914a0087df84)
+### Key Findings from Day 5:
 
-![WhatsApp Image 2024-11-25 at 9 07 01 PM (1)](https://github.com/user-attachments/assets/239557c2-2447-4cd1-a18f-fb1966feebf2)
+1. **Power Supply Scaling Impact:**
+   - VDD directly affects voltage swing and switching behavior
+   - VTC characteristics change significantly with supply voltage
+   - Switching threshold (Vm) scales proportionally with VDD
+
+2. **Advantages of Low Voltage (0.5V):**
+   - **Increased Gain:** Steeper VTC transition, better noise rejection
+   - **Significant Energy Reduction:** ~92% energy savings compared to 1.8V
+   - Lower power consumption and heat dissipation
+   - Extended battery life for portable applications
+
+3. **Disadvantages of Low Voltage (0.5V):**
+   - **Performance Impact:** 5-10× increase in propagation delay
+   - Reduced noise margins (absolute values)
+   - Limited overdrive voltage (Vgs - Vth)
+   - Increased sensitivity to process variations
+   - Threshold voltage concerns and subthreshold leakage
+
+4. **Design Trade-offs:**
+   - Energy vs. Performance optimization required
+   - Application-specific voltage selection
+   - Ultra-low power: 0.5V suitable for IoT, wearables
+   - High performance: Higher VDD needed for speed-critical paths
+   - Multi-VDD designs can optimize both
+
+5. **Connection to STA:**
+   - Supply voltage variations affect timing significantly
+   - Must characterize cells at multiple VDD levels
+   - Voltage scaling impacts setup/hold margins
+   - Dynamic voltage scaling requires multi-mode timing analysis
+   - IR drop effects become critical at low voltages
+
+---
+
+### Summary of Week 4 Task:
+
+**Complete CMOS Circuit Design Journey:**
+
+- **Day 1:** MOSFET behavior, Id-Vds characteristics, SPICE fundamentals
+- **Day 2:** Velocity saturation effects, short-channel behavior
+- **Day 3:** CMOS inverter VTC, operating regions, transient analysis
+- **Day 4:** Switching threshold, noise margins, robustness evaluation
+- **Day 5:** Power supply scaling, energy-performance trade-offs
+
+**Key Takeaways:**
+- Transistor-level physics drives circuit timing and behavior
+- SPICE simulation validates analytical models
+- Static analysis (VTC, noise margins) ensures robustness
+- Dynamic analysis (delays, transients) determines performance
+- Power supply scaling offers energy savings with performance trade-offs
+- All insights directly applicable to STA timing closure and optimization
+
+---
+
+**Author**: [Anuj Loyare]  
+**Date**: October 19, 2025  
+**Workshop**: SKY130 CMOS Circuit Design - Day 5
