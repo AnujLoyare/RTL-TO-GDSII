@@ -37,8 +37,6 @@ docker run --rm ubuntu:22.04 nproc
 - **Docker Version**: 28.5.1
 - **Disk Space**: 14 GB available
 
-![System Requirements Check](screenshots/system_check.png)
-
 ---
 
 ### 2. Clone OpenROAD Flow Scripts Repository
@@ -49,8 +47,9 @@ git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD-flow-scri
 cd OpenROAD-flow-scripts
 ```
 
-![Repository Clone](screenshots/git_clone.png)
-
+<div align="center">
+  <img src="Images/first.png" alt="Terminal" width="70%">
+</div>
 ---
 
 ### 3. Build OpenROAD Using Docker
@@ -65,8 +64,6 @@ cd ~/Desktop/OpenROAD-flow-scripts
 - Base OS: Ubuntu 22.04
 - Thread count: 6 cores
 - Build time: ~2 hours
-
-![Build Process](screenshots/build_process.png)
 
 ---
 
@@ -86,8 +83,6 @@ docker run --rm openroad/flow-ubuntu22.04-builder:ee5a20 openroad -version
 | openroad/flow-ubuntu22.04-builder | ee5a20 | 4.59GB |
 | openroad/flow-ubuntu22.04-dev | ee5a20 | 3.27GB |
 
-![Docker Images](screenshots/docker_images.png)
-
 ---
 
 ### 5. Test Complete Flow (GCD Design)
@@ -102,6 +97,9 @@ docker run --rm -it \
   openroad/flow-ubuntu22.04-builder:ee5a20 \
   bash -c "source ./env.sh && make"
 ```
+<div align="center">
+  <img src="Images/second.png" alt="Terminal" width="70%">
+</div>
 
 **Flow Stages Executed:**
 1. ✅ Synthesis (Yosys)
@@ -111,7 +109,17 @@ docker run --rm -it \
 5. ✅ Routing
 6. ✅ Finishing
 
-![Complete Flow Results](screenshots/complete_flow.png)
+
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-25 17-49-45.png" alt="Terminal" width="70%">
+</div>
+
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-25 18-26-23.png" alt="Terminal" width="70%">
+</div>
+<div align="center">
+  <img src="Images/Screenshot from 2025-10-25 18-25-34.png" alt="Terminal" width="70%">
+</div>
 
 ---
 
@@ -139,7 +147,6 @@ make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk floorplan
 - **Core Utilization**: 73%
 - **Die Area**: 840 um²
 
-![Floorplan Execution](screenshots/floorplan_cmd.png)
 
 ---
 
@@ -168,7 +175,6 @@ docker run --rm -it \
 - I/O placement
 - Die dimensions set
 
-![Floorplan GUI View](screenshots/floorplan_gui.png)
 
 ---
 
@@ -188,8 +194,6 @@ make DESIGN_CONFIG=./designs/nangate45/gcd/config.mk place
 - I/O Placement
 - Detailed Placement (Legal cell positions)
 - Placement optimization
-
-![Placement Execution](screenshots/placement_cmd.png)
 
 ---
 
@@ -215,7 +219,6 @@ docker run --rm -it \
 - Power rails connected
 - Optimized for timing and area
 
-![Placement GUI View](screenshots/placement_gui.png)
 
 ---
 
@@ -226,7 +229,6 @@ docker run --rm -it \
 cat logs/nangate45/gcd/base/3_*_place.log
 ```
 
-![Placement Logs](screenshots/placement_logs.png)
 
 ---
 
@@ -348,22 +350,6 @@ Successfully completed Week 5 task by:
 
 ---
 
-## Screenshots Checklist
-
-Create a `screenshots/` folder in your repository and add these images:
-
-- [ ] `system_check.png` - Terminal showing system requirements verification
-- [ ] `git_clone.png` - Git clone command and success message
-- [ ] `build_process.png` - Build command execution and completion
-- [ ] `docker_images.png` - Docker images list output
-- [ ] `complete_flow.png` - Complete RTL-to-GDSII flow execution results
-- [ ] `floorplan_cmd.png` - Floorplan make command execution
-- [ ] `floorplan_gui.png` - Floorplan visualization in OpenROAD GUI
-- [ ] `placement_cmd.png` - Placement make command execution
-- [ ] `placement_gui.png` - Placement visualization in OpenROAD GUI
-- [ ] `placement_logs.png` - Placement log file output
-
----
 
 ## Quick Commands Summary
 
