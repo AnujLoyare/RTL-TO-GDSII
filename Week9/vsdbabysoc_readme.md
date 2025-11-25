@@ -215,14 +215,7 @@ The final design successfully meets the specified requirements with [mention key
 
 ---
 
-## Author
 
-**Name:** [Your Name]  
-**Institution:** [Your Institution]  
-**Course:** VLSI System Design  
-**Batch:** [Your Batch]  
-
----
 
 ## Acknowledgments
 
